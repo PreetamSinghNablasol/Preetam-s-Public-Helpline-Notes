@@ -1,0 +1,58 @@
+if while commiting , the error is fatal : cannot autodetect email address user :
+        > git config --global user.email "your_address_email@domain.com"
+        > git config --global user.name "your_name"
+
+> when new user: git config credential.username "user name"
+
+> git clone <ssh id or link> ==> copying from github to remote folder
+
+> git status ==> changes made in the repo
+
+> git add . ==> track all files
+
+> git commit -m "<message>" -m "<discription>"
+
+> git push origin <branch name>
+
+> git init ==> turn a folder into git repo
+
+> git remote add origin < link or ssh key > ==> to connect a local repo to a remote one.
+
+> git remote -v ==> to check the remote repo a local repo is connected to
+
+> git push -u origin master ==> set upstream to push to origin master by default
+
+> git branch ==> shows available branch
+
+> git checkout -b <branch name> ==> create new branch
+
+> git checkout <branch name> ==> switching between branches
+
+> git diff <branch name> ==> shows changes made in current branch vs mentioned branch
+
+> git merge <branch name> ==> merges current branch with mentioned branch
+
+> -u ==> --set-upstream(we can set defaults for every branch)
+
+> git branch -d <branch name> ==> to delete a branch.
+
+> git commit -am "<message>" -m <discription> ==> to add and commit a single file change .(NOTE : for file updated , not ment for adding and
+                                                  commiting new files)
+
+> git reset ==> to reset all the files added(or all the files staged after add command)
+
+> git reset <file name> ==> to reset the staging of a particular file(to unstage a file added by mistake using add command)
+
+> git reset HEAD~1 ==> uncommits and goes to last state(uncommits and also un stages the files)
+
+> git log ==> for checking all the git commits made.
+
+> git reset <git commit hash> ==> for uncommiting all changes to a previous commit with <git commit hash>(it can be seen using git log command)
+
+NOTE : unstaging dosent mean the content is no more in file, the files will be same its just that its not commited yet
+
+> git reset --hard <git commit hash> ==> for uncommiing all the changes to previous states while removing the removed commit data from the files
+
+NOTE : using the above, the changes will be unstaged as well as the changes made in fiels during the commit, will be removed from the files.
+
+NOTE : if there is fatal : refusing to merge unrelated histories then  : "git pull origin branchname --allow-unrelated-histories"

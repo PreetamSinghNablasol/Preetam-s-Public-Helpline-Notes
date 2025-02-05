@@ -1,0 +1,568 @@
+
+
+0.) Keywords :
+	> List initialisation prevents loss of data
+	> Escape sequence in a string(we can use /hex or oct value ...)
+	> 0 and 0x are octal and hexadecimal prefix
+	> in charecters we use prefix like(u8,U,u,L) and for numbers suffix like(ull,ll,l,lf)
+	> (+=) Compound assignent operators
+	> () call operator
+	> c++ is static language since the type of the objects are checked at runtime.
+	> c++ is a non managaed language i.e. we have to manage the memory in c++.
+	> identifiers are the names given to objects.
+	> Scopes in c++ and how global scope can be overtaken by local scope with same name
+	> types(data types like int char etc) and compound types(pointers and referencese and iterators which are dependant on other types)
+	> global variables have 0 as value and varibles otherwise have a garbage value
+	> C++ supports seperate compilation that means that we can split a program in various translation unti
+	> a translation unit is an individual file that can be compiled seperately.
+	> every function by default has an invisible extern keyword.
+	> Objects pointing to the same objects are equal.
+	> constexpr or constant expressions => constant whose value is given at compiletime and cannot change , hence must be constant and compile time evaluated
+	> typedef can be used to rename the types . eg. typedef int preetam; this makes preetam a = 12; a valid statement
+	> auto type specifier values will adapt to one type on the first definition given
+	> decltype() are also a good alternative to auto.
+		> inside decltype() if a variables is written inside () it is reference type eg. decltype((int)) is int reference.
+	> vectors , string and other container classes have a .begin() function that returns an iterator type, iterators are used for iterating through elements
+
+1.) Compiler and Linker
+	> Source code is the programming language written text file in c++ most used extension cpp
+		> seperate text files are called Translation unit
+	> Preprocessor takes the .cpp file and deals with all the preprocessor commands and functionalities like :
+		> removes comments
+		> expands macros
+		> calls in include directives
+		> sets up conditional compilation
+		> converts into .i file that is intermediate code
+	> Compiler converts the .i(intermediate code) file to assembly file
+		> assembly file contains how the program will interact with the various registers and memory address
+		> this is somewhat readable by the programmer and helps understand how the program will work in computer architecture
+		> this is converted into a .s file format and the code is called assembliy code
+		> will study how to learn assembly code later
+	> Assembler converts the .s(assembly code) file into object code
+		> object code is the actual machine understandable code
+		> each translation unit has a seperate object code until this point and now the files must be interconnected
+		> the object files are difficult to read for progarmmers and is low level language
+		> the object file has extension .obj
+	> Linker links the various obj files that are dependant on each other into a single executable unit.
+		> Linker will look at all the dependancies between the files and link them together into a single project
+		> also involving the various address to addresses and stuff to other libraries
+		> there is two types of linking : ( study later)
+			> Dynamic linking : in dynamic linking the files needed by the executable are kept in seperate files other than the .exe file
+				and hence the file haer needed along with the executable file.(.dll => dynamically linked libraries) [this is more optimal ]
+			> Static linking : all the dependant files are linked together in one final executable file and not in external files.
+
+2.) Debugging
+	> we can define log classes to help debug
+	> a good program will contain that
+
+> together for ,if ,break etc are called the control flow statements since they control the flow of the program
+
+3.) Jump statements(break,return,continue)
+	> these alter the flow of control
+	> control is the current position of microprocessor
+
+4.) Preprocessor commands and macros
+	> Directives
+	> Preprocessor and macros can be used to make the compiler write the code for us since the #include and #define is used for the preproessor
+		to write the code id other files.
+	> Also there is conditional compilation,,, very important phase of preprocessing
+	> macros are #define followed commads and help define alias name for small code or text, when preprocessor goes through it replaces all the alias name used
+		into the expanded form.
+	> we simply make the preprocessor write the code for us based on condtions and user defined rules .... cool stuff
+
+5.) Conditional Statements ( if ,else ,elseif )
+	> mastered these
+
+6.) Loops in c++(for while dowhile)
+	> mastered these
+
+7.) Pointers in c++
+	> in memory we address the bytes and not bits
+	> Void pointer
+		> void pointer can hold the address of any datatype
+		> but we cannot dereference a void pointer to change the value,we can only read the value using dereference in void pointers.
+	> We cant delelete a normal pointer using delete , it will get destroyed in the stack later
+	> Null pointer
+	> nullptr = Null Pointer
+	> dereferencing
+	> memset() function is in the cstring library and is used for assignment of value to multiple string charecters that are adjecent.
+
+8.) Header Files and project folder management
+
+9.) References in c++
+	> reference need definition on declaration.
+	> we cannot change the value of reference once assigned .
+
+10.) Object Oriented Languages :
+	> C++ supports object oriented style and non Object orineted also for c users who moved to c++
+
+11.) Class :
+	> Classes are basically types
+	> Instance and Object
+		> instances are the newly instanciated objects
+	> Variables(data) and functions(for manipulating the data) in class
+
+12.) Structures vs Class :
+	> only one difference
+		> In structure the members are Public by default
+		> In Class the members are by default Private
+	> Structures exist in c++ for backward compatability with C
+	> We use structures when we want to create small functionality like simple variables
+	> and we use class for complex functionality
+	> WE CAN EVEN DEFINE functions inside structures.
+	> even we can inherit from a class in a structure
+	> but dont use structs normally rip.
+
+13.) Creating a class :
+	> a good practice is to make the variables and members of a class(specially private variables) with m_ so that while accessing them its known that they are members.
+	> .(membership operator) for accessing members
+
+14.) Static in global Scope :
+	> Static in global scope is limited to that particular translation unit
+	> Static elements have a lifespan of the whole program
+	> Static in global scope will not be linked to other translation unit by the linker hence its like marking someting private in global scope.
+	> extern can be used for external linking. This basically means that the element is defined within global scope.
+		> in global scope we cannot define two functions or variables with same name as this will give linking error
+		> we can mark the function extern and then we can use the variable defined in the global scope in other translation unit in this one
+		> or we can mark a variable as static so the linker will not look for it in the global scope
+	> Hence with the help of static we can define two same named element in different treanslation units which wont be compared by the linker.
+	> Static can be used to define element in the scope of a translation unit
+	> mark funcions static if they dont need to be accessed in other translation unit
+	> static elements are ony give memory once, the first time the control goes to them.
+
+15.) Static in a Class :
+	> Static in class will be shared by all the instance of the class
+	> Static members have a scope of the whole program
+	> Only one instance of static variables will be made.
+	> Static members can only access static members only and not other.
+	> Static variables cannot be defined inside of a class since
+	> But we can define a static const variable inside of a class since const needs constexpr
+	> STATIC VARIABLES CAN BE ASSESSED USING THE CLASS NAME USING THE SCOPE OPERATOR
+
+16.) Static in a local scope :
+	> Static local variabels only can be accessed within the paricular local scope and not outside of it.
+	> A static local variable has a lifetime of the whole program.
+	> hence the whole local scope will share the same static element as the one in the class where there was only one instance of that member.
+
+17.) What Static is :
+	> static has different meaning in different place
+	> in a class
+	> in global scope
+	> in local scope
+	> the similarity is that only one instance of the static is created for the whole program.
+	> note: a singleton class is a class that has only one instance of(eg. player position in a single player game)
+	> IN A CLASS OR WITHIN ANY OTHER SCOPE THE STATIC ELEMENTS WILL BE DECLARED ONLY ONCE AND THE NOT CONSIDERED THE NEXT TIME
+	LIKE IN A CLASS THE FIRST INSTANCE OF CLASS CREATED WILL DECLARE THE STATIC BUT THE 2ND  AND THE FOLLOWUP INSTANCES CALLED STATIC WILL BE IGNORED.
+
+	> static elements are only initialised or declared once even if the code is called again and again
+
+18.) Enumaration :
+	> enum is a value which has a name.
+	> we can give the enum a type of the name.
+	> we can perform all the operations we could perform on normal numbers
+
+19.) Constructor :
+	> a constructor is called everytime we create an instance of a class.
+	> we can use constructor to actually initialise variables of a class for the current instance.
+	> we can make the constructor private so that no one can instanciate a class, using this only static memebers can be accessed using the class name.
+	> we can even delete the default constructor so that it cannot be called and hence class cannot be instanciated.
+
+20.) ~Destructor :
+	> we use destructor to delete the instance and also cleanup any of the allocated memory in the heap.
+	> destructor are called by default when an object dies.
+	> destructor is stack allocated and hence will be called when the scope in which the instance was made is deallocated off the memory.
+	> hence to see it work we need another function where we can instanciate the class containing the destructor.
+	> we can even call the destructor manually but it is not prefered
+
+21.) Inheritance :
+	> One class can inherit another class and be superset of that class
+	> It helps avoid repetition.
+	> anyting that is public or protected in the parent class will be inherited by the child class.
+	> Polymorphism is the idea of having multiple child for a single parent.
+
+22.) Object Creation :
+	> everytime objects are instanciated memory is allocated even if the class is empty
+	> we can create object on stack or in heap
+	> Stack objects live until their scope is present , once the scope ends, stack objects are destroyed
+	> heap objects stay even when the scope ends.
+
+	> we should always make objects in the heap with consideration since the heap objects are not bound by scope but we will have to deallocate the memory on our own.
+	> one other reason to make objects in the heap is that stack has a limited size(1 mb in some architectre) and hence is not good for multiple instance creation
+	> so the thing to take in is that be smart about the heap and stack allocation of the memory.
+	> also we use the new keyword to allocate memory to the heap and we get the pointer to the heap and hence we have to use the arrow operator
+	> we should allocate on the heap based on two instincts
+		> if the object is very big and is being called many time
+		> we want to control the lifetime of the object
+		> if not allocate on the stack
+	> not calling delete can lead to memory leaks if we forget it.
+
+23.) Managed and non managed languages:
+	> in managed languages the heap memory is managed automatically
+	> in unmanaged languages like c++ we have to control the memory
+
+24.) New Keyword (Operator to be more precise):
+	> New is very common in java and the objects are always made that way, but in c++ , use of new should be managed and limited
+	> new will find an address in the heap of memory for the object instance and return the pointer to that address.
+	> new is slow and hence we hould consider using stack memory wherever we can
+	> for allocation and finding the free space in the heap there is a freelist that maintains the address of the free addresses.
+	> we can use the () operator after the class name with new to call the constructor along with the memory allocation
+	> also.... New is just an operator
+	> new actually calls malloc()
+	> delete is also an operator and actually calls the destructor.
+	> note: if we allocate memory using new and [] then the delete will also be followed by a [] since this indicates multiple memory loacation were given in heap that are to be freed.
+
+25.) Virtual Function :
+	> virtual functions can be changed in the child class
+	> not just inherited but override the virtual function form a child class
+	> when we create an object type and give it value of a child class actually, then we might expect the new created pointer to give the value
+          in the child class, but it actually acts like a parent class.
+	> we make a virtual function so that we can override the function in the parent when we are calling the child though the parent pointer
+	> check the video of cherno for more details or check example program.
+
+	> for ensuring this c++ has V Tables and uses dynamic dispatch.
+		> In computer science, dynamic dispatch is the process of selecting which implementation of a polymorphic operation (method or function) to call at run time.
+	> in c++ 11 we can write override after the function parameters to ensure that the child class function is overriding the function in the parent
+	> also override keyword makes the code more readable and ensures that the function is overriding a parent
+	> drawbacks of virtual function(but not very costly):
+		> requires additional memory for storing vtable so we can dispatch to the correct function
+		> everytime we go through the class we have to check the vtable which is extra time.
+	> Virtual function is needed in the scenario where we use polymorphism to call child class through the reference of the parent class.
+	> Note virtual function will only work when we store the child pointer in the parent pointer using new or other pointer techneques.
+
+26.) Pure Virtual functions as Interfaces :
+	> We can force the child class or we can say make it compulsory for the child class to define certain functions and this is achieved using the pure virtual function.
+	> We mark the pure virtual function as = 0 for it to be a virtual function.
+	> Note we can only make pointer to pure virtual function class, since the function is not defined and there needs to be override to use the functions defined in the
+	pure virtual function. Hence we make pointer to that class and then store pointer to a child class int that pointer of PV function class.
+		> or we can say that while making object of the pure virtual function class we must give it constructor of its child class since we cannot call the constructor of the PVclass.
+		> This is so because the Pure vistual function containing class does not have any defined method in it.
+
+27.) Visibility :
+	> we can control who can access, see or use the class members.
+	> private : no one is allowed to access the private members outside the class scope(excpet friends that we will study later)
+	> public : anyone can access the public members
+	> protected : protected elements can only be accessed by the subclasses of the class and not outside
+	> these are for our own sake of understandign when we read code to know in what scope a member is to be used.
+
+28.) Arrays in C++ :
+	> arrays out of bound can lead to serious memory leaks so we should always keep memory checks to ensure that we stay within the bounds of the array index.
+	> the name of an array acts like a top constant pointer(studied in book) to the first byte of the array.
+	> creating pointer on the stack is much better since on the heap if we pass a heap array pointer to another function, there is a lot of jumping which is demonstrated in
+	  Arrays_in_heap.cpp
+	> hence its better to use stack allocated arrays since they are faster and the stack keeps track of size of the array in the stack.
+	> we can even use array library and use std::array which gives many features
+	> the normal arrays are called Raw arrays and the std::array are called the standard arrays.
+	> raw arrays are much faster and faster to impliment than standard array but stnadard array give more flexibility.
+
+29.) Strings in C++ :
+	> a string is a group of charecters
+	> charecters are very complex actually since there are various type of charecter for different purpose
+		> there is ascii
+		> there is UniCode
+	> there are charecters with size bigger than 1 byte also
+	> the primitive type char is 1 byte and there is Unicode charecter which is 2 bytes
+	> String is just an array of charecters
+	> The c style string are made const since strings are immutable.
+	> The string ends with null termination chareccter '\0'
+	> while initialising the array during runtime if we give value of 1 or more index, the rest automatically become null.
+	> There is string library which declares a dynamic string.
+	> iostream does have a definition for string class but the override of operator << used in cout is in string library.
+	> for adding operation of addition on two strings one of the strings has to be a string class member since the overload of + is defined in the string class
+		> we can either typecast a non string class string to string class
+		> or we can call the string constructor that takes in string
+	> when we pass a string as argument make sure we pass it by reference and declare the parameter that stores the string as a constant for data intigrity.
+
+30.) String literals:
+	> they are charecters within double inverted commas and end with string termination charecter \0
+	> we can either define string as arrays in c style, or as charecter pointers
+	> when we make changes to the individual string charecters in a charecter pointer string that is actually undefined behavior
+		> this is undefined behaviour because c++ stores the strings in const section in the binary or memory.
+		> These changes made in the const memory location are not defined.
+	> we can make an array style string so that we can make changes to it.
+	> the array style string is also stored in the const memory but the difference is that, when we make changes to the string in poitner style we try
+	 to modify the memory in const memory whereas in case of array the whole array is replaced and not just one memory element(which is allowed in string).
+
+	> it is always prefered to declare the strings as const strings.
+	> string charecters are of vaious types and we can enforce them using certain prefix:
+		> u8(not compulsory) ==> normal string 1 byte ==> char*
+		> L ==> wide charecter 2 byte ==> wchar_t*(size can vary from 1 byte to 4 byte form platform to platform (and is 2 byte in windows and 4 in linux))
+		> u ==> Unicode 2 byte ==> char16_t*(size is fixed 2 byte)[UTF 16]
+		> U ==> Unicode 4 byte ==> char32_t*(size is fixed 4 byte)[UTF 32]
+	> UTF is Unicode Transformation Format
+	> using namespace std::string_literals gives us a lot of functionality and flexibility with string literals
+	> watch cherno string literal video for revision.
+
+31.) Const :
+	> const is like a promice that value wont change but we can work around that by using call by reference.
+	> we can use const to make low order and high order pointer constants also.
+		> low order : the value pointer points to is constant
+			> a low order pointer can point to a non const value also
+		> high level : the pointer itself is a constant
+	> we can use const in a Class by writing const after the method we ensure it cannot make changes to the other members of the class.
+	> so its a good practice to mark the getters as const since they are ment to get the data and not make any changes to it.
+		>note : const is written after the parameter bracket just like we use override keyword in virtual functions
+
+	> IT IS A GOOD PRACTICE TO PASS OBJECTS AS CONST REFERENCE to other functions:
+		> the reason to mark the reference as const is so that the entity can be accessed but not be modified
+		> when a const reference of object is passed, the non const methods in the class cannot be called using the passed entity
+		> that means when we pass a const reference to an object, only the methods in the class marked as const in the end like we discussed above will be accessable
+		> this is because we passed the object as const so we dont want the function we passed the object to to modify the object elements, and the
+		function may call methods from class that modify the class, hence only method marked as const that cannot modify the class are allowed in the function that
+		recieved the  const reference to the object.
+		> check cherno video or Const_method.cpp for more info.
+	> And then there is mutable that allows changing the variables in const methods...............seriously C++??
+
+32.) Mutable keyword in c++:
+	> Mutable variables can be accessed within a const method in the same class.
+	> Only the debug purpose variables or other non important variabels are made mutable so that they can be accessed by const methods if needed
+	> rarely used but we can use mutable with lambdas also and lets cover that when we study lambdas.
+
+33.) Constructor member initialiser list in C++ :
+	> Its just a way of initialising class member in the constructor of the class
+	> initialising member variables looks very neat with this
+	> But there is a much bigger purpose behind using member initialisation list
+		> member initialisation list results in only one time creation of the member objects
+		> in a normal constructor initialisation, the member objects are created twice, once during the default constructor of the member object and once when we are
+		 giving value in the normal constructor.
+		> member initialisation list ensures that the only one initialisation of member objects is called.
+		> note this is when object of another class is to be initialised in the current class. check eg. in Constructor_member_initialiser_list.cpp
+	> Member initialiser list is used for saving performance and is crucial if the member object is class type or primitive type.
+	> ALWAYS USE MEMBER INITIALISER LIST.
+
+34.) Ternary Operator :
+	> ez pz lmn sqz
+	> works on 3 operands
+	> Ternary operator is faster than if else
+	> we can also use nesting in ternary operator.
+
+35.) Implicit conversion and Explicit keyword:
+	> if conversion existes, C++ will automatically convert this is called implicit conversion
+	> C++ is only allowed to do one conversion and not multiple conversions
+	> Check the program Explicit_and_implicit.cpp
+	> originally primitive types like int is supposed to be initialised like int a = int(12); but we write int a = 15 and this is
+		implicitly C++ calling the constructor in int with int type in int.
+	> we use the explicit before the constructor to prevent implicit converstions and it is rerely used
+	> Note that c++ can only do one implicit conversion at a time and if need of multiple conversion error is given
+	> So this is just generally clean way of creating class objects with the assignment operator. ez,pz
+
+36.) Operator and Operator overloading :
+	> we can change the behavior of an operator
+	> this feature is supported fully in c++ and java lacks it
+	> Operators are like functions only and work on operands
+	> By default . operator is overloaded to get the member of current object...... Think dartz think..... its deep
+		> Actually, the override method is called for the operand written before the operator,,
+		> in a-b the overide of - will be from method of a and b is passed in as an argument.
+
+37.) This function :
+	> This is pointer to current object of the class
+		> normally its a class object pointer
+		> but in a const method it is a const class object pointer
+	> form inside of a class we can pass inn this as an argument to another function that takes class pointer as a parameter.
+	> we can dereferene this and get a reference to the current object inside of the class
+	> This can be used in the case of methods and constructors that take in parameter with same name as the member variable names because in that
+	case because of the scope , the member variable scope ends and the scope of parameter variables comes in.
+
+38.) Object Lifetime in c++
+	> Everytime a scope opens a stack is created , scope are marked by {}
+	> we can omit lots of mistakes if we take into account how scopes and stacks work in c++
+	> when we make an array in a function , there is no point of returning a pointer to that array to another function since as soon as the function ends the
+		array will get destroyed and hence only pass the dynamically allocated arrays in c++ and not the heap allocated arrays in c++.
+	> check the Object_Lifetime_and_Scoped_ptr.cpp for scoped pointer smart pointer.
+
+39.) Smart Pointers :<study templates and then come back>
+	> Smart pointers automate the process of making and deleting a pointer based on requirements.
+	> It is just a wrapper around a normal pointer, i.e. is just a way of fetching a pointer and its functionalities.
+	> include <memory> library
+	> std::unique_ptr
+		> unique pointers are smart pointers which cannot be copied and an address allocated by a unique pointer cannot  be alloted to other poinets
+		> this is because if one of the pointer pointing to the memory are deleted, the oter pointer will be poininting to an empty memory space.
+		> implicit type conversion is not allowed in unique smart poitner since the method is marked as explicit so only explicit declarations are allowed(incase confused watch implicit and explicit)
+		> the two ways of defining a unique poitner are :
+			> std::unique_ptr<type or class name> pointer_name(class name or type name constructor);
+			> std::unique_ptr<type or class name> pointer_name  = std::make_unique<type or class name>();
+			> make_unique is better for exception safety
+		> we cant copy of a unique pointer
+	> std::shared_ptr
+		> shared pointer works via reference counting where a counter keeps track of the number of reference pointing to the shared pointer
+			and the delete is called when the counter degrades to zero
+		> this can be simply done by making a counter and evertime a pointer points to the shared pointer memory address, the pointer increments by 1
+			and everytime a pointer stops pointing to the shared pointer address the counter degrades by 1.
+		> this pointer makes and keeps track of another block of memory where it keeps the reference count.
+		> the two ways of defining shared pointers are :
+			> std::shared_ptr<type or class name> entity_name(type or class constructor);// dont use this
+			> std::shared_ptr<type or class name> entity_name = std::make_shared<type or class name>();
+			> it is prefered to use the 2nd way since this way the reference pointer and the pointer to the class or the type are made at the same time
+				whereas in the first way the pointer is made first and then the reference count.
+			> hence use the 2nd way of construction
+	> std::weak_ptr
+		> used for making a pointer that does not increase the refcount of the shared pointer when it is given the pointer value pointing to a shared poitner address
+		> see its use in the Smart_pointer.cpp
+	> Come back after studyihg templates
+
+40.) Copy and Copy Constructor :
+	> it is good to know when to copy and when not to
+	> A shallow copy is when we copy one object into anoter and in reality both the object share some common memory that can lead to memory leaks
+	> deep copy is when we copy but allocate seperate memory to the seperate objects upon copying
+	> to initiate deep copy just make a constructor that takes in an object of the same class and allocate new memory but use the passed object to set the values of the current object
+			> this is demonstrated in Copy_and_Copy_constructor.cpp
+			> this constructor is called as a copy constructor
+	> note that the functions defined in <cstring> memcpy,strlen and strcpy are very useful
+	> strlen takes care of the last null element in counting the elements and strcpy will copy the null charecter in the end so we dont have to worry about that.
+	> the program made in this context is quiet lit and works for the smart poitner allocation of a string class i made myself ...yummy
+	> also remember changing value of a char* is undefined behavior.... we studied this in String Literals.
+	> Copy constructors are needed in the case where pointers or memory address are involved since copying a pointer to another does not create a new pointer
+
+41.) Formatting text :
+	> we can use printf and perform various types of functionalities
+		> we can use the %.1f ,%.2f , %.3f for printing a decimal number upto one two and 3 places after the decimal respectively.
+		> we can use printf to format the text in left or right allignmnet also.
+
+42.) Arrow Operator :
+	> we can call object of an object from the pointer of an object using -> operator
+	> we can overload an arrow operator
+	> we can also use an arrow operator to find the offset of  variabels in a class, offset means the way the variables are arranged in the memory.
+		> offsett is the position of the members of the class if the first member is at 0.
+		> check Arrow_Operator.cpp
+	> offset is pretty deep topic.
+	> intptr_t can be used to represent address into int format
+	> values in address give a very peculiar behavior
+
+43.) Vectors and Dynamic Arrays :
+	> Vectors are defined in the std:: namespace and also
+	> Vector is a bad name and not very relevant it should be called array list.
+	> Vector is dynamic array actually . it is a part of the standard template library.
+	> we can make our own types of containers.
+	> we can either make a vector of type or pointer to the type and since vector of type is stored in linear fashion, it is better.
+		> in case of vector<type> when resizing of the vector is done, the actual data stored in the vector need to be copied into a new vector of
+			bigger size and the original position of the vector is lost
+		> in case of vector<type*> when resizing the pointers to data are moved and hence the original position of vectors are intact just the pointers
+			move to a bigger memory location.
+	> also shown the use of ranged based for loop for accessing the members of the vector.
+	> also there are iterators that we will study in the primer book
+	> Vector optimisation :
+		> capacity runs out, new vector with double size and copy old in new and delete the old.....slow.
+		> we can make a copy constructor in our class to find the number of times we copy our class .
+		> when we add elements in the vector using push_back() it actually first makes the vector in the main function stack frame and then copies in vector seperate memroy
+			this results in extra copy and hence prefered to use emplace_back to make the vector directly at the desired location of assignment.
+		> also one flaw is that the vector will initially be of the size we initialise it in and hence if we know the environment it is better to just give the initial size of the
+			vector using .reserve() and this will reduce the number of times the vector has to copy significantly.
+	> lets master optimisation in the coming years preetam.
+
+44.) Libraries :
+	> other languages have package
+	> just involve all the libraries in the folder which contains the solution
+	> For our serious project we should add all the library and to be used material in the project directory
+	> we should make our own libraries insted of binaries
+	> binaries vs Libraries
+		> Binaries are the files achieved by the compilation and can be run independdantly in the processor
+		> whereas libraries are sourcecode which must be linked to other code
+		> Conclusion: Binaries Can directly run on the CPU independently. where as libraries should be linked to a binary to execute.
+	> we actually choose 32 bit or 64 bit libraries based on the target system we are developing the app for.
+	> we will study static and dynamic linking later onn.
+	> we can created a folder called the dependancies in the solution directory which will contain all sorts of libraries.
+	> header files actually only contain the declaration of the functions and component of library files and library files will contiatn the logical
+		code and content of all the files that are mentioned in the header file.
+	> the dynamic link library will again have a seperate static library that points and contiants the location of all the content of the dynamic library
+		so that the compiler does not have to ask the dll file again and again.
+	> the difference between angular brackets and quotes is that if the header is not present in the memtioned path, it will look into c++ libraries
+		whereas quotes will only look into the current path and hence if not present will throw linker error
+	> use angular when the header is available locally and use angular when the header is not in the current file directory.
+	> in our solution directory bin stands for binaries and intermediates are the files that our code gets onverted into other than the final executabel product
+		the folder other than that contains the main final file
+	> Hence linking involves includes files and library files.
+	> Static linking mean that the library is put inside the .exe file whereas dynamic library will get loaded during runtime.
+		> a DLL will still have a static library that points to all the members in the DLL file.
+		> static file with .lib extension will have its data embeded into the main executable whereaa
+		> dynamic library will have the supportive static library emebeded in the exe file and hence the exe will be able to call the dunamic
+			library members during the runtime.
+		> dynamic library (.dll ) files hence need to exist with the .exe file in a program
+
+45.) Dynamic linking :
+	> Dynamic libraries are loaded into memory after the executable is loaded into memory
+		> now sometimes dll is needed at start of a program like we see in .dll missing error
+		> whereas we can make it so the program runs without requiring a dll and then it loads the dynamic library during the runtime of the program.
+			> hence there are two type of dll. ones that are like static and mandatory at runtime
+			> and then theres some libraries that can be loaded later when needed.
+
+	> place the .dll file in the same location as the executable file
+
+46.) Making a Library :
+	> we can set the project setting to give out a Library upon compilation instead of an exe
+	> we can hence make a library from a cpp file
+	> also , we can use ../ to go back one step in the directory.
+	> but the above way of refereing to a library is not recomended(i.e. using ../ is not recomended)
+	> its better to set the path in the project settings >> include directory
+	> note use the <> when the header is not in the same solution directory
+	> in visual studio we can actually make the library as a reference to the  project and hence when the project is complied, the library is also
+		compiled and this is very efficient since we dont have to compile the library ourself if we make a change to library we can chill and
+		the library will be compiled by the original program which set the library as the reference.
+
+47.) Multiple return values :
+	> there are multiple ways of returnning multiple values like pass variables as reference to the function that neds to return and make the function
+		make changes to the reference variable and hence changing the value of the original variabels in the place which needed two returned values form the function
+	> the best way is to make a struct and just have the types of variabels and make use of this custom datatype to return two primitive datatypes.
+	> the way c++ wants us to return multiple datatypes are :
+		> Tuples : using std::tuple<> tuples can take any type of multiple variables
+
+48.) Templates
+	> we can make the compiler write the code for us
+	> templates are only actually created if they are called for some type
+	> eg calling a generic type function for int will actually write a function that takes in type int or char if we call the function for char
+	> template only gets created if we use them and we wont get error if there are in template if its not called. so work on templates carefully.
+	> note : templates are not code but reference using which we make the compiler write code for us
+	> we can use int inplace of typename in the template <> and make a generic template that takes inn an integer and writes code with that
+		> this has been shown in Templates_for_generic.cpp
+	> the argument passed in the angular brackets is called template arguments.
+	> Dont use very complex templates, and get too crazy.
+
+49.) Stack Vs Heap :
+	> stack poitner points to the top of the stack and will move the pointer based on what memory is allocates, eg, allocating int will move the stack pointer 4 bytes.
+		 so values are stored one above other.
+	> stack allocation is very fast since just the stck pointer needs to me moved and hence makes allocation fast and in a single instruction.
+	> stack memory will pop once the scope ends. and it is same as allocating, the stack poitner moves backwards
+
+	> new calls malloc , malloc is a very heavy function. Lots of bookkeeping is done wonce we call mallloc,
+	> There is a free list that keeps track of all the fre memory blocks in the ram and malloc will return pointer to a memory that has size needed for the allocation.
+	> it is very troublesom though if our ram runs out of memory for heap
+
+50.) Macros :
+	>  Macros are evaluated before the complier, its like a find and replace,and its different than templates since this happends before compilation.
+	> we can do some pritty good stuff with this like #define LOG(x) std::cin << x << std::endl;
+		we can access the above using LOG("Preetam ") and the x will be replaced in the macro by "Preetam"
+	> if we dont define content of a macro we make, it will be left blank if used in the program
+	> we can use conditional compilation using ifdef etc in a very efficient manner using macros, we can actually make our program write a code based on the debug or release mode
+		or if the code is being compiled for a 32 bit architecture.
+	> We can actully make compiler write code based on certain criterias. eg. we can predefine some macros for the debug mode in the project settings and we can then mention that
+		macro to compile a piece of code using the macro we defnied in the settings
+
+	> one good example is to use a log class and define it in such a way that if we are runnign debug mode then only include the debug class in the compilation and if we are working on
+	 	release mode dont compile the debug class just leave the macro used space empty.(we can write a macro that does nothing by not writing anything )
+		> macros must me defined in a single line but we can get around that by :
+		> we can use backslash \ in our macros definition to indicate next line eg :
+			 	define Macro  int main() \
+											{\
+												\
+											}
+		>the backslash is abel to prevent preprocessor from feeding inn on the next line break. and this whole will be treated as one macros
+
+51.) auto :
+	> auto automatically deduces the type of a variable.
+	> can we write auto anywhere???
+	> so we dont need to make changes to the auto defined variable even if we change the class or type its calling
+	> use auto when the type name is too long.
+	> we can use auto for return type also
+
+52.) Function Pointers :
+	> we can make pointers to a function or even we can make another function name that represents a function.
+	> for making a pointer to void preetam(int a , char b) we can write void(*function_name)(int a, char b) = preetam;
+		this will make a function with named function_name that has similar functionnality as preetam and hence function name is like a function reference variable.
+
+53.) lambdas :
+	> we can make a temporary function that is more like a local variable
+	> we can use a lambda to work as a function without even declaring a function.
+	> lambdas are used to pass a function as argument.
+	> Study that ok dartz.
+
+54.) Namespaces :
+	> dont use namsespaces in the header files ever, that can lead to boom baam
+	> also there are a million reasons not to use using namespace;

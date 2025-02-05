@@ -1,0 +1,179 @@
+Git is a version control system that helps keep versions of programs and this is helpful since we can go back to a previous version and even track down bugs.
+
+TERMS :
+  > Directory -> Folder
+  > Terminal or Command Line -> CMD
+  > CLI : command line interface.
+  > cd : change directory -> used for changing folder
+  > Code Editor -> writing code
+  > Repository -> means folder where the project is kept.
+NOTE : GIT is a version control system whereas GitHub is a website for uploading the repository online for multiple users to work on it.
+
+  > A professional portfolio is a collection of work and other documents that showcase your abilities to potential employers.
+
+  as programmer its better if we use git using terminal commands instead of other shitt.
+
+  >> GIT COMMANDS :
+        clone -> Bring a repos that is hosted soemwhere like on github into a folder on your local machine.
+
+        add -> used to Track files and change in GIT.(when we have made changes and want git to track those changes.)
+                files we make changes to, need to be tracked.
+
+        commit -> Save your files in GIT.(creates a new version)
+
+        push -> Upload Git commits to a remote repo, like Github (when we have asked git to make changes to track changes using 'add', save changes using 'commit' and then we want to upload the changes to Online platforms using 'push')
+
+        pull -> when changes are made to the remote repository online, to bring the changes to local machine we usee pull.
+
+        status -> tells the files to which changes were made and files that need further action like tracking.
+
+
+
+GITHUB : after creating the repository online,for the code we can create our first file
+          good ethics it to create README.md file for project and developer discription.
+          md -> markdown
+
+          we can commit the files and give a commit message and discription.
+          the last made commit message message is shown in the main menu.
+
+  we can look at the commits made , and when we open the files in the commits, we can see the changes in each line.
+
+  RED : the deleted or changed line
+  Green : the added line
+  White : unchanged line.
+
+  in any ide, we can basically open a terminal and copy the SSH code from the github website to clone the github repo to pc.
+  (there are various ways to access github repo, using links, etc)
+
+  HOW to identify if a folder is a git repo ??
+       > there is a hidden folder called '.git'
+       > this folder contains information files that save commits, changes saved.(in terminal we can use 'ls -la' to show hidden folder)
+
+  now when we are inside of a git folder using cd command when we make changes to files in the directory and save them and
+  enter 'git status', it will show all the files in which the changes was made in the directory but havent been saved in a commit yet.
+
+  git status will show all the files deleted, created or made changes
+  the new files added will be shown as the ones NOT BEING TRACKED !!!! ie they are not being accounted for in version control.
+  so we use 'git add <file_name>'
+  we can use 'git add .' to track all files in the current directory.
+  also the file we made changes to needs to be added using 'add'.
+
+  after making changes in the repo, we can use 'git commit -m "<commit note>" -m "<commit discription>"'
+  note that commit note is compulsory while commit discription is not.
+
+  if while commiting , the error is fatal : cannot autodetect email address user :
+        > git config --global user.email "your_address_email@domain.com"
+        > git config --global user.name "your_name"
+
+  even after comitting , the files are only saved locally, the commit isnt live on github yet.
+  use 'git push' to push a commit on github
+
+
+>> SSH keys : SSH keys are used to so as to connect to github repos, and for these we need to prove to github that we are the owner of the particular
+              github repo.
+              With SSH keys, you can connect to GitHub without supplying your username and personal access token at each visit.
+              so we locally generate a ssh key using :(note the terminal dosent have to be open in the local git repository for making keygen as keygen is for the whole device)
+              > ssh-keygen -t rsa -b 4096 -c "singhpreetam032@gmail.com"
+                  the above will ask for a directory where the key is to be generated, we can specify it or by derfault it is : C:\Users\singh/.ssh/id_rsa where id_rsa is the name of the keygen.
+                  then it will ask for a passphrase and we can leave that blank
+                  the key will be generated
+
+              > total of two keys will be generated. id_rsa and id_rsa.pub
+
+                id_rsa is the private key and id_rsa.pub is the public key
+                the public key, others can have it but the private one, only on your pc it should stay.
+                ON GITHUB WE UPLOAD THE PUBLIC KEY and whenever we try to connect to remote repo, the private key is the proof that we are the creator of the public key and hence we have control on the
+                remote repo.
+                its a mathematical proof that the private key is the parent of the public key.
+                the key is to be uploade in the setting of SSH and GPG keys
+
+                after the key is added, we need to tell the git in local device to know about the ssh(this is adding ssh to the ssh agent)
+                so now we run the ssh agent in background using : '$ eval "$(ssh-agent -s)"'
+                and then we give the directory of our PRIVATE SSH using : ' ssh-add C:/Users/singh/.ssh/id_rsa'
+
+>> PUSHING DATA TO GITHUB :
+
+            to add data to github from out local repo after commiting it, we use the command : 'git commit origin master'
+            here origin is the github repo from where we cloned the repo from.
+            master is the main branch so we are working on the version on main branch.
+
+    GIT INIT : if we want to add a folder to git repo, in the folder we write 'git init' and it becomes a new repository
+              after that we can simply use the repo like we use repo.
+
+              but note that if we try to push a new local repo to github using 'git commit origin master', it gives fatal error
+              since there is no corresponding repo in github where this new local repo can be pushed to.
+
+    so, create an empty repo in github with the same name as the one locally made, and type the command 'git remote add origin <copy ssh code of remote repo>'
+    in this remote means that the repo is online ,and we are basically adding another origin.
+    that will allow us to push our locally made repo to github now since we have connected to an empty repo with same name as the local one.
+    so just commit and push.
+
+    if we pull a repo from github, we dont have to do these steps.
+
+    suppose we dont wan to write 'git push origin master' we can write 'git push -u origin master' and now 'git push' will by default push the master to origin
+      -u is set upstream(or se can write --set-upstream)
+
+
+>>> Git vs Github Workflow :
+       > in github website, we write code and we commit the code, there is no manual adding done since the github does is for us.
+          and then if we can pull the code.
+
+      > in github local repos, we write code and we add the code to be tracked, then we commit the code and then we have to push the code to
+        remote repository.
+
+
+>>> Branching :
+      > Branching is used to work on two seperate versions from a single branch.
+      > the main branch is called Master
+      > the changes made to different branch, will be different.
+      > this is helpful since once a person can work on a branch and then add features, then he can approve the changes and features and merge the branch with main branch.
+      > Another common practice in industry is that if a code has bugs, a branch is made known as Bug fix branch, and the debugging person can fix the bug and merge the branch with the main branch.
+
+      in git, we can use 'git branch' command to see the branches in play currently.
+      the branch with * in from is the branch we are currently in.
+      we can exit this view by typing 'q'
+
+      to create a new branch we use the command 'git checkout -b <branch name>'
+      originally git checkout is used to switch between branches but it can be used to create branch this way.
+      'git checkout <branch name>' will switch between branches.
+
+      now, adding on any branch is fine but, commiting changes is branch specific.
+
+      NOTE : when we switch between branches in github, the content of folder that contains the repo will change based on the branch. AND THATS MIND BLOWING
+
+      now using 'git diff <branch name>' will compare the current branch with the one mentioned and show the difference and changes made.
+      (this is like the github feature where it shows changes made in red, green and white color.)
+
+      now we can merge two branches using the command 'git merge <branch name>'
+      but its better to push it to the GitHub. It cab be done by creating a branch in github with same name as the local branch.
+
+      PR : (Pull request) pr is made by the side branch to merge itself with the main branch.
+
+      on github when a branch is added, there is a compare and make pull request option where we can make a pull request and give a text also.
+      NOTE : note that to merge a side branch, merge command is used when within base branch.(or main branch in this case.)
+
+      github has a section which has pull ups section with various features. COmments can be placed reviewing the side branch,
+      comments can be made on single line to suggest possible changes or improvements. handy when various people are working on a repo.
+
+      after that after mergin a pull request with the base branch, note that the changes are only limited to github and not in our local
+      repo. so use 'git pull origin master' to get the merged branch to local device.
+      the side branch can then be deleted using 'git branch -d <branch name>'
+
+
+>> Merge Conflict : suppose we make changes to same line of code in the same file in github and local git both.
+                    what happens when we try to pull from the remote repo?
+                    there is mrege conflict and git will show this.
+                    upon the conflict when we open the file locally, the code will be remote code and local code one above other
+                    we will find arrows and some lines added by git, the solution is to simply remove those lines and arrange the code, the way we want it.
+
+                    after that add the code for tracking and then commit the changes and the pull is successfull.
+                    and we can even push the code to remote repos since the mrege conflict is resolved.
+
+                    NOTE : the merge conflicts must be resolved manually.
+                    NOTE : also without pulling the latest change made in the remote repo, we cannot push to it and hence merge conflict will come during pulling.
+
+
+                    merge conflict happens during merging of different branches also.
+
+
+NOTE : to include large files : git lfs push --all origin

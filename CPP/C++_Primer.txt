@@ -1,0 +1,1962 @@
+C++ book notes :
+A function definition has four elements: a return type, a function name, a (possibly
+empty) parameter list enclosed in parentheses, and a function body. Although main is
+special in some ways, we define main the same way we define any other function.
+
+Key Concept: Types
+Types are one of the most fundamental concepts in programming and a
+concept that we will come back to over and over in this Primer. A type defines both the contents of a data element and the operations that 
+are possible on those data.
+The data our programs manipulate are stored in variables and every variable has a type. When the type of a variable named v is T, we often 
+say that “v has type T” or, interchangeably, that “v is a T.”
+
+If we need to specify the file’s location, we’d use a “.” followed by a forward slash to indicate that our executable is in the current directory:
+$ ./a.out
+
+INPUT OUTPUT STREAM :
+Fundamental to the iostream library are two types named istream and ostream, which represent input and output streams, respectively. A stream is a sequence of characters read from or written to an IO device. The term stream is intended to suggest that the characters are generated, or consumed, sequentially over time.
+
+For output, we use an ostream object named cout (pronounced see-out). This object is also known as the standard output. The library also defines two other ostream objects, named cerr and clog (pronounced see-err and see-log, respectively). We typically use cerr, referred to as the standard error, for warning and error messages and clog for general information about the execution of the program. Ordinarily, the system associates each of these objects with the window in which the program is executed. So, when we read from cin, data are read from the window in which the program is executing, and when we write to cout, cerr, or clog, the output is written to the same window.
+cerr is the standard error stream which is used to output the errors. cerr can be written as std::cerr << “there is an error”;
+As cerr stream is un-buffered so it is used when we need to display the error message immediately and does not store the error message to display later.The “c” in cerr refers to “character” and ‘err’ means “error”, Hence cerr means “character error”. It is always a good practice to use cerr to display errors since As cerr is un-buffered so it is used when we need to display the error message immediately.
+
+buffer :A region of storage used to hold data. IO facilities often store input (or output) in a buffer and read or write the buffer independently from actions in the program. Output buffers can be explicitly flushed to force the buffer to be written. By default, reading cin flushes cout; cout is also flushed when the program ends normally.
+
+Buffer is just a temporary storage spot for a chunk of data being treanferred from one place to another. We use buffer to transfer big size data by breaking it into smaller chunks. So the use of buffer can be that we can work on the tranferred data the moment the first chunk arrives and hence it is better to transfer data using small chunks then sending the whole data as a whole.
+
+later we will discuss how we can empty the buffer in desired manner.
+
+<< == is the output operator(in a way this shows the direction of stream)
+.>> == is the input operator
+
+for buffer and stream ==> Node JS Tutorial for Beginners #13 - Streams and Buffers - YouTube
+
+The << operator takes two operands: The left-hand operand must be an ostream object; the right-hand operand is a value to print. The operator writes the given value on the given ostream. The result of the output operator is its left-hand operand.
+That is, the result is the ostream on which we wrote the given value. Our output statement uses the << operator twice. Because the operator returns its left-hand operand, the result of the first operator becomes the left-hand operand of the second. As a result, we can chain together output requests.
+
+The input operator (the » operator) behaves analogously to the
+output operator. It takes an istream as its left-hand operand and an object as its right-hand operand. It reads data from the given istream and stores what was read in the given object. Like the output operator, the input operator returns its left-hand operand as its result. Hence, this expression is equivalent to (std::cin >> v1) >> v2; Because the operator returns its left-hand operand, we can combine a sequence of input requests into a single statement. Our input operation reads two values from std::cin, storing the first in v1 and the second in v2. In other words, our input operation executes as
+std::cin >> v1;
+std::cin >> v2;
+
+endl is a special value called a manipulator
+Writing endl has the effect of ending the current line and flushing the buffer associated with that device. Flushing the buffer ensures that all the output the program has generated so far is actually written to the output stream, rather than sitting in memory waiting to be written.
+
+std::endl = ‘\n’ + std::flush;
+
+When to use cout,cerr and clog
+
+**cout uses a buffer i.e the data is split into smaller chunks and sent into buffer. We use cerr when there is an error in the buffer and needs correction immidiately, so cerr displays the error imideately since it does not use a buffer and hence the whole error message is moved in a single go. clog is just a buffered version of cerr.
+Cout and cerr actually write to different streams but the output of both the streams are merged and shown on the console.
+std::cout ==> writes to stdout stream
+std::cerr ==> writes to unbuffered stderr stream
+std::clog ==> writes to buffered stderr stream
+**
+
+buffered and unbuffered I/O
+Buffered file input and output happens when there is a buffer for temporarily storing data before reading data or writing data. Thus, instead of reading a file byte by byte, you read many bytes at once. You put it in a buffer and wait for someone to read it in the desired way. Unbuffered file input and output happens when there is no buffer to temporarily store data before actually reading or writing it.
+
+The next question that you might ask is how to decide when to use buffered and when to use unbuffered file input and output. When dealing with critical data, unbuffered file input and output is generally a better choice because buffered reads might result in out-of-date data and buffered writes …
+
+Streams :
+Un-buffered standard error stream (cerr)
+cerr is the standard error stream which is used to output the errors. This is also an instance of the ostream class. As cerr is un-buffered therefore it’s used when we need to display the error message instantly. It doesn’t have any buffer to store the error message and display later.
+
+Buffered standard error stream (clog)
+This is also an instance of ostream class and used to display errors but unlike cerr the error is first inserted into a buffer and is stored in the buffer until it is not fully filled.
+
+Standard output stream (cout)
+cout is the instance of the ostream class. cout is used to produce output on the standard output device which is usually the display screen. The data needed to be displayed on the screen is inserted in the standard output stream (cout) using the insertion operator (<<).
+
+Warning :
+Programmers often add print statements during debugging. Such statements should always flush the stream. Otherwise, if the program crashes, output may be left in the buffer, leading to incorrect inferences about where the program crashed.we use a function for this(find out… its for cin) called std::flush;
+
+NAMESPACE: Namespaces allow us to avoid
+inadvertent collisions between the names we define and uses of those same names inside a library. All the names defined by the standard library are in the std namespace. One side effect of the library’s use of a namespace is that when we use a name from the library, we must say explicitly that we want to use the name from the std namespace. Writing std::cout uses the scope operator (the :: operator)to say
+that we want to use the name cout that is defined in the namespace std.
+
+When we initialize a variable, we give it the indicated value at the same time as the variable is created.
+
+Flow of Control :
+A condition is an expression that yields a result that is either true or false.
+
+A block is a sequence of zero or more statements enclosed by curly braces
+
+we can pass cin as a condition since it returns bool
+When we use an istream as a condition, the effect is to test the state of thestream. If the stream is valid—that is, if the stream hasn’t encountered an error—then the test succeeds. An istream becomes invalid when we hit end-of-file or encounter an invalid input, such as reading a value that is not an integer. An istream that is in an invalid state will cause the condition to yield false.
+
+HOW TO FLUSH BUFFERS
+
+#include<iostream>
+#include<string>
+
+
+int main()
+{
+    int test;
+    if(!(std::cin >> test ))
+    {
+        std::cout << "\n Enter a vaid input\n";
+    }
+// if we enter a string in the above cin, it will stay in the buffer and interup the below cin
+    std::string str;
+    if(!( std::cin >> str))
+    {
+        std::cout << "\n End of file or wrong input\n";
+    }
+    return 0;
+}
+
+in the above program the program will throw a bug where if we enter a string in the first cin, it will not be taken by that cin and will be accepted as input for the next cin.
+
+we can use std::flush to flush the output buffer in the case of cout. But there is a difficult techneque to flush the cin buffer.
+
+the below program shows how we can flush the input stream
+
+#include<iostream>
+#include<string>
+
+
+int main()
+{
+    int number;
+    std::cin >> number;
+    std::cin.clear();//explained below
+    std::cin.ignore(10000,'\n');// This ignores the previous 10000 input strings if any in the buffer
+    //std::cin.ignore(std::numberic_limits<std::streamsize>::max(), '\n');
+    std::string str;
+    std::cout << "\n The input buffer has been flushed :";
+    std::cin >> str;
+    
+    
+    return 0;
+}
+
+
+in the above program,in cin , if we enter a string instead of a number we will notice a strange phenomena.
+upon entering the string in the number, the string in the input buffer will not be assigned to number since its of type int, so the buffer will be full. also cin wont function since it could not get the input in desired way. this will result in that our str string will get the buffer value without any prompt since the buffer is already full.
+
+to fix this issue, cin has member methodslike cin.clear();
+this method clears the previous state of the cin object and will function properly the next time we summon it. but the input buffer needs to be flushed in order to use cin again.
+hence we write cin.ignore(1000,’\n’)
+cin.ignore takes two arguments,the number of elements to ignore and the charecter until which ignoring is to be done.
+since we are no sure how many elements are pending in the string, we can alternatively write this
+std::cin.ignore(std::numberic_limitsstd::streamsize::max(),’\n’);
+
+this will flush the input buffer content and there will be no issues in the above program.
+
+Entering an End-of-File from the Keyboard
+When we enter input to a program from the keyboard, different operating systems use different conventions to allow us to indicate end-of-file. 
+On Windows systems we enter an end-of-file by typing a control-z—hold down the Ctrl key and press z—followed by hitting either the Enter or Return 
+key. On UNIX systems, including on Mac OS X machines, end-of-file is usually control-d.
+
+Compilation Revisited
+Part of the compiler’s job is to look for errors in the program text. A compiler cannot detect weather a program does what its author intends, 
+but it can detect errors in the form of the program.
+
+Introducing Classes
+A class defines a type along with a collection of operations that are related to that type. The class mechanism is one of the most important
+ features in C++. In fact, a primary focus of the design of C++ is to make it possible to define class types that behave as naturally as the 
+ builtin types.
+
+compound assignment operator (+=)
+
+A member function is a function that is defined as part of a class. Member functions are sometimes referred to as methods.
+
+(the “.” operator)==> Membership Operator
+
+while calling a function the () double paranthesis in which we pass the arguements are called the call operator.
+
+expression The smallest unit of computation. An expression consists of one or more operands and usually one or more operators. 
+Expressions are evaluated to produce a result. For example, assuming i and j are ints, then i + j is an expression and yields the sum of the 
+two int values.
+
+manipulator Object, such as std::endl, that when read or written “manipulates” the stream itself
+
+standard library Collection of types and functions that every C++ compiler must support. The library provides the types that support IO. 
+C++ programmers tend to talk about “the library,” meaning the entire standard library. They also tend to refer to particular parts of the library
+ by referring to a library type, such as the “iostream library,” meaning the part of the standard library that defines the IO classes.
+
+namespace Mechanism for putting names defined by a library into a single place. Namespaces help avoid inadvertent name clashes. The names defined 
+by the C++ library are in the namespace std
+
+statement A part of a program that specifies an action to take place when the program is executed. An expression followed by a semicolon is a 
+statement; other kinds of statements include blocks and if, for, and while statements, all of which contain other statements within themselves.
+string literal Sequence of zero or more characters enclosed in double quotes(“a string literal”).
+
+Variables and Basic Types
+
+Primitive / Built in types:
+C++ defines a set of primitive types that include the arithmetic types and a special type named void. The arithmetic types represent characters, 
+integers, boolean values, and floating-point numbers. The void type has no associated values and can be used in only a few circumstances, 
+most commonly as the return type for functions that do not return a value.
+The arithmetic types are divided into two categories: integral types (which include character and boolean types) and floating-point types.
+
+Type			Meaning  											Minimum Size
+
+bool			boolean	    										NA
+char			charecter											8 bits
+wchar_t			wide charecter										16 bits
+char16_t		Unicode charecter									16 bits
+char32_t		Unicode charecter									32 bits
+short			short integer										16 bits
+int				integer												16 bits
+long			long integer										32 bits
+long long		long long integer									64 bits
+float			single-precision floating point						6 significant digits
+double			double precision floating point						10 significant digit
+long double		extended precision floating point					10 significant digit
+
+The bool type represents the truth values true and false.
+
+The remaining character types—wchar_t, char16_t, and char32_t—are used
+for extended character sets. The wchar_t type is guaranteed to be large enough to hold any character in the machine’s largest extended character set. The types char16_t and char32_t are intended for Unicode characters. (Unicode is a standard for representing characters used in essentially any natural language.)
+
+Signed and Unsigned Types
+Except for bool and the extended character types, the integral types may be signed or unsigned. A signed type represents negative or positive numbers (including zero); an unsigned type represents only values greater than or equal to zero. The types int, short, long, and long long are all signed. We obtain the corresponding unsigned type by adding unsigned to the type, such as unsigned long. The type unsigned int may be abbreviated as unsigned.
+In an unsigned char type, all the bits represent the value. For example, an 8-bit unsigned char can hold the values from 0 through 255 inclusive.
+Whereas in the signed one the 1st bit represents the sign bit.
+
+• Use an unsigned type when you know that the values cannot be negative
+bool b = 42; // b is true
+int i = b; // i has value 1
+i = 3.14; // i has value 3
+double pi = i; // pi has value 3.0
+unsigned char c = -1; // assuming 8-bit chars, c has value 255
+signed char c2 = 256; // assuming 8-bit chars, the value of c2 is undefined
+
+An important observation is :
+If we assign an out-of-range value to an object of unsigned type, the result is the remainder of the value modulo the number of values 
+the target type can hold. For example, an 8-bit unsigned char can hold values from 0 through 255, inclusive. 
+If we assign a value outside this range, the compiler assigns the remainder of that value modulo 256. Therefore, 
+assigning –1 to an 8-bit unsigned char gives that object the value 255. and similarly if we assign the value 256 to it , since 256 is 
+one above the max range, the value will be 0+1 = 1;
+
+==> programs usually should avoid implementation-defined behavior,
+such as assuming that the size of an int is a fixed and known value. Such programs are said to be nonportable. When the program is moved to another machine, code that relied on implementation-defined behavior may fail. Tracking down these sorts of problems in previously working programs is, mildly put, unpleasant.
+
+int i = 42;
+if (i) // condition will evaluate as true
+i = 0;
+If the value is 0, then the condition is false; all other (nonzero) values yield true. By the same token, when we use a bool in an arithmetic expression, its value always converts to either 0 or 1. As a result, using a bool in an arithmetic expression is almost surely incorrect.
+
+#include<iostream>
+
+int main()
+{
+    bool b = true;// Boolean holds true or false
+    char c ='c';// for holding the simple ascii char
+    wchar_t wc ='p';// capable of holding unicode charecter that are out of ascii and ocupy 2 bytes
+    char16_t c16 = 'p'; // unicode charecter 16 byte
+    char32_t c32 = 'p'; // unicode charecter 32 byte
+    short s = 12;// small int
+    int i = 1123;// normal int
+    long l= 123456;// large int
+    long long ll = 123456678;// very large int
+    float f = 1.1;// floating point number
+    double d = 1.22; // floating point numbers upto more significant figures
+    long double ld= 23.55L;// floating number with even more significant bits
+    unsigned int ui;
+    unsigned char uc;
+    unsigned short us;
+    unsigned long ul;
+    unsigned long long ull;
+
+    return 0;
+}
+
+
+Unsigned value :
+Although we are unlikely to intentionally assign a negative value to an object of unsigned type, we can (all too easily) write code that does so 
+implicitly. For example, if we use both unsigned and int values in an arithmetic expression, the int value ordinarily is converted to unsigned. 
+Converting an int to unsigned executes the same way as if we assigned the int to an unsigned:
+unsigned u = 10;
+int i = -42;
+std::cout << i + i << std::endl; // prints -84
+std::cout << u + i << std::endl; // if 32-bit ints, prints 4294967264
+In the first expression, we add two (negative) int values and obtain the expected result. In the second expression, the int value -42 is converted to unsigned before the addition is done. Converting a negative number to unsigned behaves exactly as if we had attempted to assign that negative value to an unsigned object. The value “wraps around” as described above.
+Regardless of whether one or both operands are unsigned, if we subtract a value from an unsigned, we must be sure that the result cannot be negative:
+unsigned u1 = 42, u2 = 10;
+std::cout << u1 - u2 << std::endl; // ok: result is 32
+std::cout << u2 - u1 << std::endl; // ok: but the result will wrap
+around.
+
+Unsigned numbers can lead to infinite loops :
+for(unsigned i =10 :i >= 0 ; --i)
+std::cout << i << std::endl;
+
+in the above loop the loop will go on forever since the moment i goes -1 it will be type converted to 1 less then the max size of unsigned(4294967295) and – from there.
+
+#include<iostream>
+
+
+
+int main()
+{
+    int number= -52;
+    unsigned int number_1 = number;
+    // Range of unsigned number starts from 0 to beyond and hence type conversion
+    // of -52 to unsigned is = max_size_of_unsigned_int - 52
+    for(unsigned int number_3 = number ; number_3 >=0; number_3 ++)
+    {
+        std::cout << "This loop will print infinitely \n";
+    }
+    // this will run forever because when the value of number_3 becomes -1 , it will type convert to
+    // one less than the max value that can be held by unsigned int
+    return 0;
+}
+
+Caution: Don’t Mix Signed and Unsigned Types
+Expressions that mix signed and unsigned values can yield surprising results when the signed value is negative. It is essential to remember that 
+signed values are automatically converted to unsigned. For example, in an expression like a * b, if a is -1 and b is 1, then if both a and b are 
+ints, the value is, as expected -1. However, if a is int and b is an unsigned, then the value of this expression depends on how many bits an int has 
+on the particular machine. On our machine, this expression yields 4294967295.
+
+hex and oct
+We can write an integer literal using decimal, octal, or hexadecimal notation. Integer literals that begin with 0 (zero) are interpreted as octal.
+ Those that begin with either 0x or 0X are interpreted as hexadecimal. For example, we can write the value 20 in any of the following three ways:
+20 - decimal
+024 - octal
+0x14 - hexadecimal
+
+A value, such as 42, is known as a literal because its value self-evident. Every literal has a type. The form and value of a literal determine its type.
+
+It is an error to use a literal that is too large to fit in the largest related type.
+
+Although integer literals may be stored in signed types, technically speaking, the value of a decimal literal is never a negative number. 
+If we write what appears to be a negative decimal literal, for example, -42, the minus sign is not part of the literal. The minus sign is an 
+operator that negates the value of its (literal) operand.
+
+Specifying the type of a literal :
+Using the suffix and prefix below we can specify what type of literal we want. eg.floating type literals have by default type double so we can specify the following suffix and prefix to get the desired type.
+and similarly a number literal is by default treated as int and if we want the literal to be used as ULL we specify the suffix.
+
+basically using this suffix and prefix we can change the default type of a literal into other type.
+Charecter and Charecter String Literals
+
+Prefix	Meaning	Type
+u	Unicode 16 charecter	cahr16_t
+u	Unicode 32 charecter	char38-t
+L	wide charecter	wchar_t
+u8	utf-8(string literals only)	char
+
+
+Integer and floating point literal
+
+Suffix	Type
+u or U	unsigned
+l or L	long
+ll or LL	long long
+f or F	flaot
+l or L	long double
+Floating-point literals include either a decimal point or an exponent specified using scientific notation. Using scientific notation, the exponent is 
+indicated by either E or e
+0e0
+
+A character enclosed within single quotes is a literal of type char. Zero or more characters enclosed in double quotation marks is a string literal:
+‘a’ // character literal
+"Hello World!" // string literal
+
+string literals end with ‘\0’(NULL);
+
+Escape Sequences :
+Some characters, such as backspace or control characters, have no visible image. Such characters are nonprintable. Other characters (single and double quotation marks, question mark, and backslash) have special meaning in the language. Our programs cannot use any of these characters directly. Instead, we use an escape sequence to represent such characters. An escape sequence begins with a backslash. The language
+defines several escape sequences:
+
+newline \n horizontal tab \t alert (bell) \a
+vertical tab \v backspace \b double quote "
+backslash \ question mark ? single quote '
+carriage return \r formfeed \f
+
+\7 (bell) \12 (newline) \40 (blank)
+\0 (null) \115 (‘M’) \x4d (‘M’)
+
+We use an escape sequence as if it were a single character
+
+HERE IS A PROPERTY i will write but wont use :
+
+we can define our own Escape sequences eg. using \x and 
+if we write \x and after that a few hexadecimal digits, and the string will convert the hexadecimal to integer and print the integer’s corresponding 
+ascii value. eg. \x4d we have 4d which is equavalent to 77 and since 77 represents M in ascii table so \x4d will be treated as M.
+
+we can even write \ followed 1 2 or 2 digits of octal code and the octal code will be converted to decimal and its ascii equavalent will be found . that ascii value will be printed .
+eg. \115 : here the octal code is 115, 115 is equavalent to 77 and since 77 is M in ascii table, \115 will be treated as ‘M’;
+std::cout << “/115 /x4d”; will print “M M”.
+
+#include<iostream>
+
+int main()
+{
+    int x = 20;
+    int y = 024;// octal number
+    int z = 0x14;// hexadecimal number
+    
+    
+    
+    for(int a = 0;a < 10ULL;a++)// suffix ULL for specifying a ULL literal
+    {
+        printf("\n lego");
+    }
+    std::cout << 'LA' << std::endl;// using L before 'A' to specify that its a wide charecter
+    // doing so the compiler will treat the 'A' as a wide charecter type.
+
+
+
+    std::cout <<" \n \t \a \v \b \" \\ \? \' \r \f " << std::endl;
+
+
+    std::cout << "octal to ascii => \115  \n hexadecimal to ascii => \x4d" << std::endl; // we can use \ and \x for defining our own ascii value ESCAPE SEQUENCE
+    // 115-octal = 77-decimal ='M'-ascii      4d-hexadecimal = 77-decimal = 'M' - ascii
+    
+    return 0;
+}
+/*
+newline \n          horizontal tab \t     alert (bell) \a
+vertical tab \v     backspace \b          double quote \"
+backslash \\        question mark \?      single quote \'
+carriage return \r  formfeed \f
+*/
+
+LATER study Escape Sequences again.
+
+Variables :
+A variable provides us with named storage that our programs can manipulate. Each variable in C++ has a type. The type determines the size and l
+ayout of the variable’s memory, the range of values that can be stored within that memory, and the set of operations that can be applied to the 
+variable. C++ programmers tend to refer to variables as “variables” or “objects” interchangeably.
+A simple variable definition consists of a type specifier, followed by a list of one or more variable names separated by commas, and ends with a semicolon
+
+Terminology: What is an Object?
+C++ programmers tend to be cavalier in their use of the term object. Most generally, an object is a region of memory that can contain data and has a type.
+
+An object that is initialized gets the specified value at the moment it is created
+
+Initialization in C++ is a surprisingly complicated topic and one we will return to again and again. Many programmers are confused by the use of the = symbol to initialize a variable. It is tempting to think of initialization as a form of assignment, but
+initialization and assignment are different operations in C++. This concept is particularly confusing because in many languages the distinction is irrelevant and can be ignored. Moreover, even in C++ the distinction often doesn’t matter. Nonetheless, it is a crucial concept
+
+initialisation != assignment
+
+Warning
+Initialization is not assignment. Initialization happens when a variable is given a value when it is created. Assignment obliterates an object’s 
+current value and replaces that value with a new one.
+
+list initialization:
+the various ways we can initialise an int in c++ are :
+int units_sold = 0;
+int units_sold = {0};
+int units_sold{0}; this form referred to as list initialization
+int units_sold(0);
+
+#include<iostream>
+
+int main()
+{
+    int x = {3.123456};// will throw an error since its list initialisation
+    int y = 3.4567;// the value will be stored but the decimal part will be truncated
+    
+    return 0;
+}
+//List initialisation is done when we dont want any data loss in automatic type conversion
+
+Braced lists of initializers can now be used whenever we initialize an object and in some cases when we assign a new value to an object.
+When used with variables of built-in type, this form of initialization has one important property: The compiler will not let us list initialize variables of built-in type if the initializer might lead to the loss of information:
+
+long double ld = 3.1415926536;
+int a{ld}, b = {ld}; // error: narrowing conversion required
+int c(ld), d = ld; // ok: but value will be truncated
+
+The compiler rejects the initializations of a and b because using a long double to initialize an int is likely to lose data.
+
+Default Initialization :
+When we define a variable without an initializer, the variable is default initialized. Such variables are given the “default” value. What that default value is depends on the type of the variable and may also depend on where the variable is defined.
+The value of an object of built-in type that is not explicitly initialized depends on where it is defined. Variables defined outside any function body are initialized to zero.
+variables of built-in type defined inside a function are uninitialized.
+
+The value of an uninitialized variable of built-in type is undefined. It is an error to copy or otherwise try to access the value of a 
+variable whose value is undefined .
+
+It is upto the class whose object we are trying to define the default initial value of undefined object , eg. the string class has default
+non initialised string object as empty strings. we can define our own default values in class and even parameters in functions, 
+constructors etc.
+
+Note
+Uninitialized objects of built-in type defined inside a function body have undefined value. Objects of class type that we do not 
+explicitly initialize have a value that is defined by the class.
+
+Variable Declarations and Definitions
+
+To allow programs to be written in logical parts, C++ supports what is commonly known as separate compilation.
+Separate compilation lets us split our programs into several files, each of which can be compiled independently.
+To support separate compilation, C++ distinguishes between declarations and definitions.
+a declatation can happen many times, whereas a definition can happen only once.
+better understanding : Understanding “extern” keyword in C - GeeksforGeeks
+
+Note
+Variables must be defined exactly once but can be declared many times.
+To obtain a declaration that is not also a definition, we add the
+
+Extern keyword
+
+extern is a keyword that is present implicitly in front of a function.
+extern is used to define a variable but not declare it. IE a variable created with extern will have no memory until its value is initialised.
+defines why there is extern before every funtion since function only take memory when called.
+
+what extern basically does is that it tells the compiler that the variables is not defined here but in a differennt translation unit.
+i.e the value of the variable is defined somewhere else. hence extern helps us use a variable somewhat like globally.(we have to mention
+ extern in every program and also include the header of file where it is declared.)
+
+a translation unit is a cpp file. we know that in cpp, files are compiled seperately. i.e. seperate files are compiled seperately and linked later by linker based on the use of header files.and a single of those cpp file is a translation unit.
+
+so for a seperate cpp file memory is not given to extern unless its initialised. and hence defines why functions have it up front by default.
+for more info check :
+Understanding the Extern Keyword in C - YouTube
+
+#include<iostream>
+//#include "the_header_in_which_x_is_declared"
+extern int x ;// defining extern
+// suppose we have imported the above header
+
+int main()// any function will have extern by default
+{
+    x =13;
+    std::cout << x;
+    return 0;
+}
+
+
+Key Concept: Static Typing
+C++ is a statically typed language, which means that types are checked at compile time. The process by which types are checked is referred to as type checking.
+As we’ve seen, the type of an object constrains the operations that the object can perform. In C++, the compiler checks whether the operations we write are 
+supported by the types we use. If we try to do things that the type does not support, the compiler generates an error message and does not produce an executable file.
+As our programs get more complicated, we’ll see that static type checking can help find bugs. However, a consequence of static checking is that the type of 
+every entity we use must be known to the compiler. As one example, we must declare the type of a variable before we can use that variable.
+
+Identifiers
+Identifiers in C++ can be composed of letters, digits, and the underscore character. The language imposes no limit on name length. Identifiers must begin with 
+either a letter or an underscore. Identifiers are case-sensitive; upper- and lowercase letters are distinct.
+so basically the identifiers are the variabels names or the object names we are allowed to give .
+
+***Scope of a Name ***:
+
+Scope of a variable is the effective range of code in which the variable can be accessed or changed.
+A scope is a part of the program in which a name has a particular meaning. Most scopes in C++ are delimited by curly braces.
+.main function is defined outside of the curly braces so it has a global scope whereas any variable defined inside of main funcion has scope within the main curly braces
+
+Scopes can contain other scopes. The contained (or nested) scope is referred to as an inner scope, the containing scope is the outer scope.
+
+#include <iostream>
+// Program for illustration purposes only: It is bad style for a function
+// to use a global variable and also define a local variable with the same name
+int reused = 42; // reused has global scope
+int main()
+{
+ int unique = 0; // unique has block scope
+ // output #1: uses global reused; prints 42 0
+ std::cout << reused << " " << unique << std::endl;
+ int reused = 0; // new, local object named reused hides global reused
+ // output #2: uses local reused; prints 0 0
+ std::cout << reused << " " << unique << std::endl;
+ // output #3: explicitly requests the global reused; prints 42 0
+ std::cout << ::reused << " " << unique << std::endl; return 0;
+}
+
+Output # 1 appears before the local definition of reused. Therefore, this output statement uses the name reused that is defined in the global scope. This statement prints 42 0. Output # 2 occurs after the local definition of reused. The local reused object named
+reused rather than the global one and prints 0 0. Output # 3 uses the scope operator (§ 1.2, p. 8) to override the default scoping rules. The global scope has no name. Hence, when the scope operator has an empty left-hand side, it is a request to fetch the name on the right-hand side from the global scope. Thus, this expression uses the global reused and prints 42 0.
+
+Warning
+It is almost always a bad idea to define a local variable with the same name as a global variable that the function uses or might use.
+
+Compound Types :
+A compound type is a type that is defined in terms of another type. C++ has
+several compound types, two of which—references and pointers
+
+Reference :
+A reference defines an alternative name for an object. A reference type “refers to” another type. We define a reference type by writing a
+ declarator of the form &d,
+where d is the name being declared:
+
+int ival = 1024;
+int ival2 = ival; // make copy the old object into the new object
+int& refVal = ival; // refVal refers to (is another name for) ival
+int& refVal2; // error: a reference must be initialized
+
+so basically reference is giving another name to the same object.
+also it is mandatory to initialise the reference, or we can say give the reference the object name at the time of declaration.
+Once a reference is bind to the object we cannot bind it to another object.
+
+Note
+A reference is not an object. Instead, a reference is just another name for an already existing object., the type of a reference and the 
+object to which the reference refers must match exactly
+
+Pointers
+
+A pointer is a compound type that “points to” another type. Like references, pointers are used for indirect access to other objects.
+Unlike a reference, a pointer is an object in its own right. Pointers can be assigned and copied; a single pointer can point to several 
+different objects over its lifetime. Unlike a reference, a pointer need not be initialized at the time it is defined. 
+
+
+
+Like other built-in types, pointers defined at block scope have undefined value if they are not initialized.
+
+the difference is that a pointer holds the address of the other objects.
+
+int * ptr;// this is an int pointer and will point to an interger
+int x = 12;
+ptr = &x;// ptr stores the value of pointer
+
+note:
+Pointers are type of object only and have physical address
+Because references are not objects, they don’t have addresses. Hence, we may not define a pointer to a reference.
+
+we can access the value of pointer using the value at address operator(* )
+
+Key Concept: Some Symbols Have Multiple Meanings
+
+Some symbols, such as & and *, are used as both an operator in an
+expression and as part of a declaration. The context in which a symbol is used determines what the symbol means:
+
+int i = 42;
+int &r = i; // & follows a type and is part of a declaration; r is a
+reference
+int * p; // * follows a type and is part of a declaration; p is a
+pointer
+p = &i; // & is used in an expression as the address-of operator
+* p = i; // * is used in an expression as the dereference operator
+int &r2 = * p; // & is part of the declaration; * is the dereference //operator
+
+In declarations, & and * are used to form compound types. In expressions, these same symbols are used to denote an operator. Because the same symbol is used with very different meanings, it can be helpful to ignore appearances and think of them as if they were different symbols.
+
+NULL pointer
+we can make a pointer that points to nothing using the NULL pointer
+
+There are several ways to obtain a null pointer:
+
+int *p1 = nullptr; // equivalent to int *p1 = 0;
+int *p2 = 0; // directly initializes p2 from the literal constant 0
+
+int *p3 = NULL; // must #include cstdlib
+
+we can use preporcessor directives like #include csdtdlib. this defines the meaning to the variable NULL.
+
+NOTE: its a good practice to initialise all poiners to NULL so that if we are not using it in the program the NULL pointing reference can be detected and deallocate the memory that it possessed.
+
+Other Pointer Operation :
+
+int ival = 1024;
+int *pi = 0; // pi is a valid, null pointer
+int *pi2 = &ival; // pi2 is a valid pointer that holds the address of ival
+if (pi) // pi has value 0, so condition evaluates as false
+ // ...
+if (pi2) // pi2 points to ival, so it is not 0; the condition evaluates as true
+ // ...
+
+Any nonzero pointer evaluates as true
+hence a valid pointer will return true and we can use this in conditional operators.
+we can use == and != operators.
+if the two pointers point to same object then the two pointer give true for ==
+
+void * Pointers
+
+void pointers can hold the address of any type of object.
+
+double obj = 3.14, * pd = &obj;
+// ok: void* can hold the address value of any data pointer type
+void * pv = &obj; // obj can be an object of any type
+pv = pd; // pv can hold a pointer to any type
+
+We cannot use a void * to operate on the
+object it addresses—we don’t know that object’s type, and the type determines what operations we can perform on the object.
+
+#include<iostream>
+
+
+
+int main()
+{
+    void *ptr;
+    int x = 12;
+    ptr = &x;
+    *ptr = 13;// gives error,cannot make changes to object of *ptr
+    
+    return 0;
+}
+
+NOTE: type modifiers are : long , Unsigned etc that are mention along with the type of data while declaring a variable
+eg.
+unsigned int x = 12;
+here
+Unsigned ==> type modifier
+int ==> data type
+x ==> variable
+= ==> assignment operator
+12 ==> literal
+
+References to Pointers
+A reference is not an object. Hence, we may not have a pointer to a reference. However, because a pointer is an object, we can define a reference to a pointer:
+
+int i = 42;
+int *p; // p is a pointer to int
+int *&r = p; // r is a reference to the pointer p
+r = &i; // r refers to a pointer; assigning &i to r makes p point to i
+*r = 0; // dereferencing r yields i, the object to which p points; changes to 0
+
+Tip
+It can be easier to understand complicated pointer or reference declarations if you read them from right to left.
+
+Const Qualifier
+we can use constant to declare some variables as constant so that the value of those constants cannot be changed.
+
+const int ci = i;
+here ci is a constant whose value cannot be changed.
+
+If we want to declare a constant that is valid across multiple files and not scoped to a single file.we use extern
+
+we use the keyword extern on
+both its definition and declaration(s):
+
+// file_1.cc defines and initializes a const that is accessible to other files
+extern const int bufSize = fcn();
+// file_1.h
+extern const int bufSize; // same bufSize as defined in file_1.cc
+
+the header :
+
+#ifdef MEM_CHECK
+#define MEM_CHECK
+
+extern const int x =15;
+
+#endif
+
+the file :
+
+include<iostream>
+#include "15_const_extern.h"// contains the declaration of x
+
+extern const int x= 15 ;// a global constant defined in header
+int main()
+{
+    const int y = 15;// declaring a local constant
+    std::cout << "The constant in the header is : " << x << std::endl;
+
+    return 0;
+}
+
+// i think that extern is just so that same variable can be initialised seperately
+// inside of seperate files but like calling function using the same memory space.
+// this is much more efficient than declaring seperate variables in each file but it
+// is prefered to use local variables in a program.
+
+// I think in case of function also,same instance of function can be called
+// multiple times but they empty the memory each time they are done.
+// so its never that multiple isntances of same function are occupying the 
+// memory at tha same time. Same is for extern variables, explains why
+// functions have extern implicitly ahead of them.
+
+
+we will study the .h file later.
+
+Note
+To share a const object among multiple files, you must define the variable as extern.
+
+we can even make reference to a constant
+
+const int ci = 1024;
+const int &r1 = ci; // ok: both reference and underlying object are const
+r1 = 42; // error: r1 is a reference to const
+int &r2 = ci; // error: non const reference to a const object
+
+Because we cannot assign directly to ci, we also should not be able to use a reference to change ci. Therefore, the initialization of r2 is an error. If this initialization were legal, we could use r2 to change the value of its underlying object.
+
+when we write const int &r1 = ci; does this mean that we are decalaring a constant reference?? no
+a reference cannot be a constant , by writing const int we mean that the refernce is for type const int. hence we are saying that reference will point to an const int type variable.
+
+An important property :
+suppose we have
+const int &ref;
+we can refer to non constant int,
+eg.
+
+double i = 12;
+const int &ref = i;
+
+??? how???
+compiler will create this extra step :
+const int temp = i;// this temp will store truncated i value
+const int &ref = temp;
+(if too complex study page 97)
+so actually the reference is pointing to a temporary object(not visible to us) made by the compiler. Now the reason this is possible while ref is constant is because if assignmet was allowed to the reference ref, the user would expect that changes made to the ref would change the value of i, which is not true since ref actually points to temp(created by compiler). Hence assignment to ref should be prohibited which is why ref must be a constant to assign non const value to it.
+
+#include<iostream>
+
+
+
+int main()
+{
+    const int x = 12;
+    const int &ref = x;// a refernce to a constant itself must be a constant
+    // this is so we are not able to make changes to the constant using its reference
+    double i = 12.54; // this is a double
+    const int &ref_2=i; // this int constant is catually pointing to a temp const and not i
+    /*
+        &ref_2 is not pointing to i, since i is a double the compiler creates a temp variable and
+        make ref_2 refer to that. therefore ref_2 as a constant can be assignes a non int types since
+        even though it points to a temp now, we cannot intent to change i using ref_2 since
+        ref_2 is a constant.
+    */
+
+    ref_2 = 15;// this throws error the ref_2 is constant
+
+    return 0;
+}
+
+hence when the reference is constant we can assign it to non base variable value on the condition that we cannot change the value using reference.
+
+A Reference to const May Refer to an Object That Is Not const
+Try understanding what happens here, and why it is allowed
+
+Pointer to Constants
+
+we can make pointers that point to constant given that we declare them to point to constant eg.
+
+#include<iostream>
+
+int main()
+{
+    const int const_int =12;
+    int norm_int = 12;
+
+    const int * ptr = &const_int; // pointer to const int types
+    int * const ptr_2 = &norm_int;// constant pointer to int types
+
+
+    return 0;
+} 
+
+Unlike references, pointers are objects. Hence, as with any other object type, we can have a pointer that is itself const. Like any other 
+const object, a const pointer must be initialized, and once initialized, its value (i.e., the address that it holds) may
+not be changed. We indicate that the pointer is const by putting the const after the *. This placement indicates that it is the pointer, not the pointed-to type, that is const:
+
+int errNumb = 0;
+int * const curErr = &errNumb; // curErr will always point to errNumb
+const double pi = 3.14159;
+const double * const pip = π // pip is a const pointer to a const
+object
+
+the constant pointers cannot be made to point to other objects once value is assigned to them.
+
+NOTE:
+
+1.)const int * ptr;
+2.)int * const ptr;
+
+the 1.) is a pointer that points to a constant integer.
+whereas the 2.) is a constant pointer pointing to an integer.
+
+TOP level constants :
+
+We use the term top-level const to indicate that the
+pointer itself is a const. When a pointer can point to a const object, we refer to that const as a low-level const.
+
+1.)const int * ptr;// low level constant
+2.)int * const ptr;// top level constant
+The distinction between top-level and low-level matters when we copy an object. When we copy an object, top-level consts are ignored:
+
+int i = 0;
+int *const p1 = &i; // we can't change the value of p1; const is top-level
+const int ci = 42; // we cannot change ci; const is top-level
+const int *p2 = &ci; // we can change p2; const is low-level
+const int *const p3 = p2; // right-most const is top-level, left-most is not
+const int &r = ci; // const in reference types is always low-level
+i = ci; // ok: copying the value of ci; top-level const in ci is ignored
+p2 = p3; // ok: pointed-to type matches; top-level const in p3 is ignored
+int *p = p3; // error: p3 has a low-level const but p doesn't
+
+Copying an object doesn’t change the copied object. As a result, it is immaterial whether the object copied from or copied into is const.
+
+constexpr and Constant Expressions
+
+In computer science, an expression is a syntactic entity in a programming language that may be evaluated to determine its value
+A constant expression is an expression whose value cannot change and that can be evaluated at compile time. A literal is a constant 
+expression. A const object that is initialized from a constant expression is also a constant expression.
+
+const int max_files = 20; // max_files is a constant expression
+const int limit = max_files + 1; // limit is a constant expression
+int staff_size = 27; // staff_size is not a constant expression
+const int sz = get_size(); // sz is not a constant expression
+
+Basically all the constants whose values is fixed at the compile time, are called Constant Expressions. In the above eg. even when sz is a constant, since its output depends on get_size() , its value will be evaluated and assigned during runtime and this makes it not a constant expression.
+
+In a large system , it can be difficult to determine for certain that an initializer is a constant expression. even when the user thinks he has declared a constatn expression , it may not be true. There is a way to ask the compiler to verify that a variable is constatn expression by using constexpr.
+
+. Variables declared as constexpr are implicitly const and must be initialized by constant expressions:
+
+constexpr int mf = 20; // 20 is a constant expression
+constexpr int limit = mf + 1; // mf + 1 is a constant expression
+constexpr int sz = size(); // ok only if size is a constexpr //function
+
+Best Practices
+Generally, it is a good idea to use constexpr for variables that you intend to use as constant expressions.
+
+Because a constant expression is one that can be evaluated at compile time, there are limits on the types that we can use in a constexpr declaration. The types we can use in a constexpr are known as “literal types” because they are simple enough to have literal values.
+
+LITERAL TYPES : arithmetic,reference and pointer
+
+NON LITERAL TYPES : string
+
+It is important to understand that when we define a pointer in a constexpr declaration, the constexpr specifier applies to the pointer, not the type to which the pointer points:
+
+const int * p = nullptr; // p is a pointer to a const int
+constexpr int * q = nullptr; // q is a const pointer to int
+
+constexpr is a low level const.
+
+Like any other constant pointer, a constexpr pointer may point to a const or a nonconst type:
+
+#include<iostream>
+
+int function()// this is not a constant expression fucntion
+{
+    int x ;
+    std::cin >> x;
+    return x;
+}
+
+int main()
+{
+    const int x = 12;// x is a constant expression
+    const int y  = function();// not a constant expression
+// constant expressions are those which are give memory and value during compilation
+// in the above example constatn y is not getting its value at compile time
+// since its dependent on a function and that function does not give a
+// compile time value.
+    
+    
+    constexpr int z = function(); // gives error 
+    // constexpr makes sure the expression defined is constant
+    
+
+    int z = 12;
+    constexpr int *ptr = &z;// constexpr is a low level constant
+    // what that above means is that pointer ptr must get its pointer value
+    // at compiletime
+    // so this means that constexpr pointer can point to a non constant too.
+    
+    return 0;
+}
+// the constexpr can only be used for LITERAL TYPES : arithmetic,reference and pointer
+
+Dealing With Types :
+Type Aliases :
+
+Type aliases let us simplify complicated type definitions, making those types easier to use. Type aliases also let us emphasize the 
+purpose for which a type is used. We can define a type alias in one of two ways.Traditionally, we use a typedef:
+
+typedef double wages; // wages is a synonym for double
+typedef wages base, * p; // base is a synonym for double
+wages emp1=15;// wages represents base type double
+
+The new standard introduced a second way to define a type alias, via an alias declaration:
+
+using SI = Sales_item; // SI is a synonym for Sales_item
+
+Pointers, const, and Type Aliases :
+
+below is a very typical observation.
+
+we can do magic with typedef:
+
+typedef char * pstring; // type of pstring is pointer to char
+const pstring cstr = 0; // cstr is a constant pointer to char
+const pstring * ps; // ps is a pointer to a constant pointer to char
+
+The base type in these declarations is const pstring. As usual, a const that appears in the base type modifies the given type. 
+The type of pstring is “pointer to char.” So, const pstring is a constant pointer to char—not a pointer to const char. hence in the above
+const pstring cstr != const char * cstr;
+
+since pstring is not exactly pasting the text it means here used/// this is deep
+
+Hence :
+typedef char * pstring;
+const pstring cstr =0; // cstr is a constant pointer to char ==> top level
+const char * cstr; // cstr is a pointer to constatn char ==> low level
+
+#include<iostream>
+int main()
+{
+    char i = 'i';
+    typedef char* i_i;
+    const i_i c = &i;// here i_i is simply a alias name for char*
+    // This may look low order but is top order
+     
+    i_i *d;// this is equavalent to char **d
+    // we just initialised a 
+
+
+    const char l ='l';
+    typedef const char* pointer;
+    pointer j = &l;// this is actualy low order constant
+    j = &i;// we can assign a new value to j since it was a 
+    // low order constant
+    return 0;
+}
+
+auto Type specifier
+
+Sometimes it is difficult to find the type of expression and hence giving the type specifier is very difficult for the variable ment to store the expression.
+Hence under the new statndards came auto type specifier.
+auto type specifier tells the compiler to deduce the type form the initializer. By implication , a variable that uses auto as its type specifier must have an initializer :
+
+// the type of item is deduced from the type of the result of //adding val1 and val2
+auto item = val1 + val2; // item initialized to the result of val1 + val2
+we can use the literal suffix and prefix type modifiers here.
+eg.
+auto x = 12;// x is considered int by default
+suto x = 12L;// is considered long due to suffix
+
+The decltype Type Specifier
+
+Sometimes we want to define a variable with a type that the compiler deduces from an expression but do not want to use that expression to initialize the variable. For such cases, the new standard introduced a second type specifier, decltype, which returns the type of its operand. The compiler analyzes the expression to determine its type but does not evaluate the expression:
+
+decltype(f()) sum = x; // sum has whatever type f returns
+Here, the compiler does not call f, but it uses the type that such a call would return as the type for sum. That is, the compiler gives sum the same type as the type that would be returned if we were to call f.
+
+const int ci = 0, &cj = ci;
+decltype(ci) x = 0; // x has type const int
+decltype(cj) y = x; // y has type const int& and is bound to x
+decltype(cj) z; // error: z is a reference and must be initialized
+
+Because cj is a reference, decltype(cj) is a reference type. Like any other reference, z must be initialized
+When we apply decltype to an expression that is not a variable, we get the type that that expression yields.
+
+// decltype of an expression can be a reference type
+int i = 42, * p = &i, &r = i;
+decltype(r + 0) b; // ok: addition yields an int; b is an (uninitialized) int
+decltype(* p) c; // error: c is int& and must be initialized
+
+Here r is a reference, so decltype® is a reference type. If we want the type to which r refers, we can use r in an expression, such as r + 0, which is an expression that yields a value that has a nonreference type.
+On the other hand, the dereference operator is an example of an expression for which decltype returns a reference. As we’ve seen, when we dereference a pointer, we get the object to which the pointer points. Moreover, we can assign to that object. Thus, the type deduced by decltype(*p) is int&, not plain int.
+
+Warning
+Remember that decltype((variable)) (note, double parentheses) is always a reference type, but decltype(variable) is a reference type only if variable is a reference.
+
+#include<iostream>
+#include<string>
+
+bool random_function()
+{
+    return true;    
+}
+int main()
+{
+    auto x = 12;// x is assigned type int automatically based on the
+    // type of data written on the right.
+    auto x = 12L;// remember literal type modifying using suffix and prefix
+    // can be used here
+
+
+    // decltypes are used to give types based on the output of an expression
+    // or function
+    decltype(5%6) x;// x is int since 5%6 returns int only
+    decltype(random_function()) y; // y is bool since random function
+    // returns bool
+    
+    // decltype can also give type modifier if the expression returns a 
+    // result with type modifier
+    const int me = 12;
+    decltype(me) he = 15;//he is a constant int type
+    decltype((me)) ptr = me;// double brackets always gives a reference type
+    // remember this, double bracket yelds reference
+    return 0;
+}
+
+Defining our own data structures :
+At the most basic level, a data structure is a way to group together related data elements and a strategy for using those data
+In C++ we define our own data types by defining a class. The library types string, istream, and ostream are all defined as classes.
+
+struct preeetam{
+// class body
+};
+
+The class body defines the members of the class. Our class has only data members. The data members of a class define the contents of the objects of that class type. Each object has its own copy of the class data members. Modifying the data members of one object does not change the data in any other object.
+
+Writing Our Own Header Files
+
+we can define a class inside a function, such
+classes have limited functionality. As a result, classes ordinarily are not defined inside functions. When we define a class outside of a function, there may be only one definition of that class in any given source file. In addition, if we use a class in several different files, the class’ definition must be the same in each file.
+
+In order to ensure that the class definition is the same in each file, classes are usually defined in header files. Typically, classes are stored in headers whose name derives from the name of the class. For example, the string library type is defined in the string header.
+
+A header file can import other header if needed since the class using the header may need the other header objects.
+eg. out header may need the string.h header file.
+
+Note
+Whenever a header is updated, the source files that use that header must be recompiled to get the new or changed declarations
+
+Preprocessor commands :
+
+As the name suggests Preprocessors are programs that process our source code before compilation.
+or
+in my own words, before the program goes to the compiler, it goes to preprocessor, the preprocessor checks the preprocessore commands that have been embeded in the program by the coder and creates instruction for the compiler to compile the preprocessor command logic first.
+
+ALSO THE HEADER FILES IN THE PROGRAMING HAVE PREPROCESSOR COMMANDS TO COMMUNICATE WITH THE PREPROCESSOR
+
+So bascically we can control what resource and logic to execute or prepare before the actual compilation starts. eg. we can tell which library file will be used by the program and later in the compiler the linker will bind the additional library file data that needs to be embeded in the program.
+
+There are a number of steps involved between writing a program and executing a program in C / C++. Let us have a look at these steps before we actually start learning about Preprocessors.
+
+Preprocessor-In-C.png
+
+Examples of some preprocessor directives are: #include, #define, #ifndef etc. Remember that # symbol only provides a path that it will go to the preprocessor, and command such as include is processed by preprocessor program. For example, include will include extra code to your program. We can place these preprocessor directives anywhere in our program and the code will be sent to the preprocessor.
+The source code written by programmers is stored in the file program.c. This file is then processed by preprocessors and an expanded source code file is generated named program. This expanded file is compiled by the compiler and an object code file is generated named program .obj. Finally, the linker links this object code file to the object code of the library functions to generate the executable file program.exe.
+
+Preprocessor programs provide preprocessors directives which tell the compiler to preprocess the source code before compiling. All of these preprocessor directives begin with a ‘#’ (hash) symbol. The ‘#’ symbol indicates that, whatever statement starts with #, is going to the preprocessor program, and preprocessor program will execute this statement.
+
+There are 4 main types of preprocessor directives:
+Macros
+File Inclusion
+Conditional Compilation
+Other directives
+
+1.)Macros: Macros are a piece of code in a program which is given some name. Whenever this name is encountered by the compiler the compiler replaces the name with the actual piece of code. The ‘#define’ directive is used to define a macro.
+eg.-program 1.
+Note: There is no semi-colon(‘;’) at the end of macro definition. Macro definitions do not need a semi-colon to end.
+Macros with arguments: We can also pass arguments to macros. Macros defined with arguments works similarly as functions. Let us understand this with a program at the end.
+
+2.)File Inclusion: This type of preprocessor directive tells the compiler to include a file in the source code program. There are two types of files which can be included by the user in the program:
+
+These header files are of extension.h and have preprocessor directives inside them to guide the preprocessor.
+
+Header File or Standard files: These files contains definition of pre-defined functions like printf(), scanf() etc. These files must be included for working with these functions. Different function are declared in different header files. For example standard I/O functions are in ‘iostream’ file whereas functions which perform string operations are in ‘string’ file.
+where file_name is the name of file to be included. The ‘<‘ and ‘>’ brackets tells the compiler to look for the file in standard directory.
+Standard directory is the library directory that is defined in all devices using any compiler. These are the predefined directory
+
+user defined files: user defined files: When a program becomes very large, it is good practice to divide it into smaller files and include whenever needed. These types of files are user defined files. These files can be included as:
+#include"filename"
+
+3.)Conditional Compilation: Conditional Compilation directives are type of directives which helps to compile a specific portion of the program or to skip compilation of some specific part of the program based on some conditions.
+or
+we can control which portion of program to compile and which not to based on the result of some constant defined in the preprocessor directive.
+
+#ifdef:
+the code below the ifdef will be compiled if the macro variable mentioned after ifdef was defined previously.
+
+#ifdef MACRO
+controlled text
+#endif
+
+#ifndef:
+the code below ifndef will not be compiled if the macro variable existes previously defined. quiet opposite of ifdef.
+
+Bothe ifdef and ifndef will enclose the to be compiled code within #endif
+
+#endif :
+endif marks the end of one compilation control command.
+endif will tell the range in which the code effected by condition control statements will last.
+
+#if, #else and #elif:
+these work quite like the normal if else and elif but the only difference being that these condtions will not direct the flow of program but direct the flow of compilation.
+
+// Example of PREPROCESSOR COMMANDS
+
+#include<iostream>// File_inclusion_header_file
+//#include"user_defined_file_name" File_inclusion_user_defined
+
+#define MARK 95       // Macro_pre_procesor_command
+#define Y(a,b) a+b // Macro_command_with_parameters
+#define SCORE 90
+
+int main()
+{
+
+/*
+    #ifdef  #ifndef
+*/
+
+#ifdef SCORE // if SCORE is defined above this ifdef below will be compiled
+
+        std::cout << "SCORE was defined so i was compiled\n";
+#else
+
+        std::cout << "SCORE was not defined so i was compiled\n";
+#endif
+#ifndef SCORE
+        std::cout << "SCORE was not defined so i was compiled \n";
+
+#endif
+/*
+    #IF #ELIF #ELSE
+*/
+
+
+
+#if MARK <= 75 // Conditional_compilation_Preprocessor_commands
+        std::cout << "your marks are less than 75 \n";
+        // this code will not be compiled only if the condition is false
+        // ie. the false condition code will not be included in the final .exe
+#elif MARK <= 90
+        std::cout << "your marks are less than 90\n";
+
+#else 
+        std::cout << "okk you pass";
+#endif
+    return 0;
+}
+
+
+***4.OTHER preprocessor commands *** :
+
+a> #undef Directive: The #undef directive is used to undefine an existing macro. This directive works as:
+
+#undef LIMIT
+
+Using this statement will undefine the existing macro LIMIT. After this statement every “#ifdef LIMIT” statement will evaluate to false.
+
+b> #pragma Directive:
+This directive is a special purpose directive and is used to turn on or off some features. This type of directives are compiler-specific, i.e., they vary from compiler to compiler. Some of the #pragma directives are discussed below:
+
+#pragma startup and #pragma exit:
+pragma startup tells which function to execute first before main()
+and pragma exit tells which function to exit with after main().
+eg.
+#pragma startup funtion1
+#pragma exit function2
+
+so the flow of program will be :
+funtion 1 ==> main() ==> function 2
+
+pragma startup and exit ara compiler specific and dont work on gcc.
+
+#pragma warn Directive:
+This directive is used to hide the warning message which are displayed during compilation.
+We can hide the warnings as shown below:
+
+#pragma warn -rvl: This directive hides those warning which are raised when a function which is supposed to return a value does not returns a value.
+
+#pragma warn -par: This directive hides those warning which are raised when a function does not uses the parameters passed to it.
+
+#pragma warn -rch: This directive hides those warning which are raised when a code is unreachable. For example: any code written after the return statement in a function is unreachable.
+
+#include<iostream>
+
+#pragma warn -rvl// This directive hides those warning which are raised when a function which is supposed to return a value does not returns a value.
+
+#pragma warn -par// This directive hides those warning which are raised when a function does not uses the parameters passed to it.
+
+#pragma warn -rch// This directive hides those warning which are raised when a code is unreachable. For example: any code written after the return statement in a function is unreachable.
+
+
+
+#pragma startup function// not available in this compiler :(
+#pragma exit function_2// not available in this complier
+
+
+void function()
+{
+    std::cout << "This is function One" << std::endl;
+    return ;
+}
+void function_2()
+{
+    std::cout << "This is function Two" << std::endl;
+}
+int main()
+{
+    std::cout << "This is main function" << std::endl;
+    return 0;
+}
+// pragma directives decide which function will run before main and 
+// which function will run after main
+// flow = funtion ==> main() ==> function_2
+
+c> Line control ( #line ):
+Whenever we compile a program, there are chances of occurrence of some error in the program. Whenever compiler identifies error in the program it provides us with the filename in which error is found along with the list of lines and with the exact line numbers where the error is. This makes easy for us to find and rectify error.
+However we can control what information should the compiler provide during errors in compilation using the #line directive.
+
+#line number “filename”
+
+number – line number that will be assigned to the next code line. The line numbers of successive lines will be increased one by one from this point on.
+“filename” – optional parameter that allows to redefine the file name that will be shown.
+
+  #include<iostream>
+
+int main()
+{
+    std::cout << "This code is in : " << __LINE__ << " And file :"<< __FILE__ << std::endl;
+    
+#line 68 "Hellonigga.cpp"// The line below this directive will be treated as line 68
+
+    std::cout << "This code is in : " << __LINE__ << " And file :"<< __FILE__ << std::endl;
+
+#line 998 "GoNigga.cpp" // the line below this directive will be treated as line 998
+
+    std::cout << "This code is in : " << __LINE__ << " And file :"<< __FILE__ << std::endl;
+    return 0;
+}
+/*
+    line directives help us rename the line number and the compiler will treat the line as if its the line we
+    mentioned and use the file name as the file we mentioned. Note : that if theie is an error in programs, compiler
+    shows the error with the line number and file name. we can manipulate that using this
+*/
+
+O/P ==>
+This code is in : 5 And file :24_Other_directives.cpp
+This code is in : 70 And file :Hellonigga.cpp
+This code is in : 1000 And file :GoNigga.cpp
+
+d> Error directive ( #error ):
+This directive aborts the compilation process when it is found in the program during compilation and produces an error which is optional and can be specified as a parameter.
+Syntax:
+#error optional_error
+Here, optional_error is any error specified by the user which will be shown when this derective is found in the program.
+Example:
+
+#ifndef preetam
+#error preetam not found !
+#endif
+
+O/P ==> preetam not found !
+
+NOTE: we used the directives in c++ where we did not want to compile the same header twice.
+
+#ifndef CHECK_FOR_MULTI_DEFINE
+#define CHECK_FOR_MULTI_DEFINE
+.
+.
+.
+#endif
+
+like this.
+
+#include<iostream>
+
+#define BOSS 12
+
+int main()
+{
+#undef BOSS   
+#ifndef BOSS
+
+#error WHAT THE HELL// this directive can be used to avoid any error
+
+#endif
+    return 0;
+}
+
+// Upon experiencing #error, the compiler will throw an error with whats written up fornt
+// This can be used to check and control various compilation related issues
+
+
+Preprocessor directives are very important ang gives the coder more control over flow of compilation and keep various checks on compilation.
+
+Namespace using Declarations :
+what does std::cin mean ??
+it says that the compiler should look in the scope of the left-hand operand for the name of the right-hand operand. Thus, std::cin says that we want to use the name cin from the namespace std.
+
+We should not use using Declaration
+
+STRING :
+A string is a variable-length sequence of characters
+taking string in as cin has its own issues
+like we are unable to take in a string comprising of spaces
+
+getline
+
+size returns a string::size_type value.
+Although we don’t know the precise type of string::size_type, we do know that it is an unsigned type (§ 2.1.1, p. 32) big enough to hold the size of any string. Any variable used to store the result from the string size operation should be of type string::size_type.
+size type is unsigned and may lead to problems so we should try and avoid storing .size() insede int type variables since we know why.
+
+we can declare a size_type using :
+std::string::size_type x;
+// below are two other ways of defining size_type variables
+decltype(hexdigits.size()) hell ;// if hexdigits is a string object
+decltype(size_t()) hell_2 = 12;
+
+in case using getline , use decltype if need but dont typeconvert size_type to int since size type is unsigned
+
+When we mix strings and string or character literals, at least one operand to each + operator must be of string type:
+
+string s1 = “hello”, s2 = “world”; // no punctuation in s1 or s2
+string s3 = s1 + ", " + s2 + ‘\n’;
+string s4 = s1 + ", "; // ok: adding a string and a literal
+string s5 = “hello” + ", "; // error: no string operand
+string s6 = s1 + ", " + “world”; // ok: each + has a string operand
+string s7 = “hello” + ", " + s2; // error: can’t add string literals
+note:
+In the above “hello” is not a string!!! it is not a string class object and adding string needs one operand to be the string object
+
+#include<iostream>
+// program to take user input with multiple words form user and print it
+using std::string;
+int main()
+{
+ std::string word;
+ while (std::cin >> word) // read until end-of-file
+ std::cout << word << std::endl; // write each word followed by a new line
+ std::getline(std::cin,word); // get line can take input without issues
+ 
+
+ bool empty_check = word.empty();// returns true false
+ auto x = word.size();// size returns a string::size_type
+
+
+
+
+string s1 = "hello", s2 = "world"; // no punctuation in s1 or s2
+string s3 = s1 + ", " + s2 + '\n';
+string s4 = s1 + ", "; // ok: adding a string and a literal
+string s5 = "hello" + ", "; // error: no string operand
+string s6 = s1 + ", " + "world"; // ok: each + has a string operand
+string s7 = "hello" + ", " + s2; // error: can't add string literals
+// in the above , "hello" is not a string, since hello is not an object of sting class
+// and nor is ", "
+return 0;
+}
+// i know how the buffer works so its fine.
+
+Dealing with the Characters in a string.
+Often we need to deal with the individual characters in a string. We might want to check to see whether a string contains any whitespace, or to change the characters to lowercase, or to see whether a given character is present, and so on.
+
+#include<iostream>
+#include<cctype>// defines functions for charecters   
+#include<string>
+
+int main()
+{
+    std::string str = "preetam_gone_insane";
+    isalnum(str[1]);
+    isalpha(str[1]);
+    iscntrl(str[1]); // if the char is a control charecter
+    isdigit(str[1]); 
+    isgraph(str[1]); // not space but printable
+    islower(str[1]);
+    isprint(str[1]); // is a printable charecter
+    ispunct(str[1]); // is a punctuation charecter
+    isspace(str[1]); // is space
+    isupper(str[1]); 
+    isxdigit(str[1]); // is hexadecimal
+    tolower(str[1]);  // return lower equavalnet
+    toupper(str[1]); // returns upper equavalent
+
+
+    return 0;
+}
+
+Processing Every Character? Use Range-Based for
+
+#include<iostream>
+
+int main()
+{
+    std::string str = "preetam_gone_insane";
+    for(char c : str)// iterates through every element of the container in this case string
+    // and storing each index in the variable c
+    {
+        std::cout << c << std::endl;
+    }
+    
+    return 0;
+}
+
+the subscript operator ([])
+box braces help access individual elements of a string.
+[] takes in size type operator and not int by default remember not to enter a negative number.
+
+iterating using subscripting
+
+// process characters in s until we run out of characters or we hit a whitespace
+
+for (decltype(s.size()) index = 0; index != s.size() && !isspace(s[index]); ++index)
+s[index] = toupper(s[index]); // capitalize the current character
+
+we can declare a size_type using :
+std::string::size_type x;
+
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+    std::string::size_type n ;// this way we can declare a size type variable
+    
+
+    // the below program takes user input of several numbers seperated by ints and using
+    // the hexdigits strings,generate a random hexadecimal number
+    //(pretty useless i know :)
+    const string hexdigits = "0123456789ABCDEF"; // possible hex digits
+    cout << "Enter a series of numbers between 0 and 15"
+        << " separated by spaces. Hit ENTER when finished: " << endl;
+    string result; // will hold the resulting hexify'd string
+    string::size_type n; // hold numbers from the input
+    while (cin >> n)
+        if (n < hexdigits.size()) // ignore invalid input
+            result += hexdigits[n]; // fetch the indicated hex digit
+    cout << "Your hex number is: " << result << endl;
+    
+    
+    // below are two ways of defining size_type variables
+    decltype(hexdigits.size()) hell ;
+    decltype(size_t()) hell_2 = 12;
+    return 0;
+}
+
+Vectors :
+A vector is a collection of objects, all of which have the same type.
+A vector is a class template.
+
+Templates are not themselves functions or classes. Instead, they can be thought of as instructions to the compiler for generating classes or functions. The process that the compiler uses to create classes or functions from templates is called instanciation.
+
+Vector use list initialisation ie. using the curly braces
+
+below is how vectors can be initialised
+
+#include<iostream>
+#include<string>
+#include<vector>
+int main()
+{
+    std::vector<int> v1(10); // v1 has ten elements with value 0
+    std::vector<int> v2{10}; // v2 has one element with value 10
+    std::vector<int> v3(10, 1); // v3 has ten elements with value 1
+    std::vector<int> v4{10, 1}; // v4 has two elements with values 10 and 1
+
+    // when is vector of type string.
+    std::vector<std::string> v5{"hi"}; // list initialization: v5 has one element
+    std::vector<std::string> v6("hi"); // error: can't construct a vector from a string literal
+    std::vector<std::string> v7{10}; // v7 has ten default-initialized elements
+    std::vector<std::string> v8{10, "hi"}; // v8 has ten elements with value "hi"
+    return 0;
+}
+
+we can add elements to vector using push_back
+
+and we can access the size using .size()
+below is a basic program that takes user input string and enters the elements in a vector.
+
+#include<iostream>
+#include<string>
+#include<vector>
+// a basic program that takes user input string and enters the elements in a vector.
+int main()
+{
+
+    std::vector<std::string> vec;
+    std::string words,temp;
+    std::cout << "Enter the elements and they will be taken in as vector elements :" << std::endl;
+    std::getline(std::cin,words);
+    std::cout << words <<std::endl;
+    for(char c : words)
+    {
+        temp.push_back(c);
+        if(c == ' ')
+        {
+            vec.push_back(temp);
+            temp = "";
+        }
+        
+    }
+    vec.push_back(temp);
+    for(decltype(vec.size()) i = 0 ; i < vec.size(); i++)
+        std::cout << vec[i] <<std::endl;
+    
+    
+    return 0;
+}
+
+now remember!!!
+we cannot use the substring operator to add new elements to a vector or string.it can only help access new elements.
+
+Introduction to Iterators :
+Although we can use subscripts to access the characters of a string or the elements in a vector, there is a more general mechanism—known as iterators—that we can use for the same purpose.
+Iterators are used to iterate in containers. and even in strings.
+Iterators are like pointers but different. Iterators dont need us to use the * operator to declare.
+there are some predefined function in the class which return iterator type.
+
+// the compiler determines the type of b and e
+// b denotes the first element and e denotes one past the last element in v
+auto b = v.begin(), e = v.end(); // b and e have the same type
+
+The iterator returned by end is an iterator positioned “one past the end” of the associated container (or string). This iterator denotes a nonexistent element “off the end” of the container. It is used as a marker indicating when we have processed all the elements. The iterator returned by end is often referred to as theoff-the-end iterator or abbreviated as “the end iterator.” If the container is empty, begin returns the same iterator as the one returned by end.
+note that end give the address of one past the container iterator.
+
+Note
+If the container is empty, the iterators returned by begin and end are equal—they are both off-the-end iterators.
+
+Iterators support only a few operations, We can compare two valid iterators using == or !=. Iterators are equal if they denote the same element or if they are both off-the-end iterators for the same container. Otherwise, they are unequal.
+
+As with pointers, we can dereference an iterator to obtain the element denoted by an iterator. Also, like pointers, we may dereference only a valid iterator that denotes an element Dereferencing an invalid iterator or an off-the-end iterator has undefined behavior
+
+iterator support arithmetic like pointers and also we can access the value at iterator using * (value at address operator)
+
+#include<iostream>
+#include<string>
+#include<vector>
+
+int main()
+{
+    std::string str = "preetam is insane";
+    // the end() returns iterator to the one after the last value in the collection
+    if(str.end()==str.begin())// end() and begin() are iterators
+    {
+        std::cout << "The string is empty since the starting and ending iterators are equal" << std::endl;
+    }
+
+
+
+    auto a= str.end();
+    a = a-1;// we can perform arithmetic on iterators just like pointers
+
+    char c = *a;// *a is the value at iterator a
+    return 0;
+}
+
+using * to get the value at an address also called as dereferencing.
+
+#include<iostream>
+#include<vector>
+#include<string>
+// using -> we can access the member function of the iterator we are currently on
+int main()
+{
+    std::vector<std::string> vec;
+    vec = {"preetam ","gone ","insane"};
+    auto iter = vec.begin();// iter is now iterator on the first element of vector
+    iter->append('m');//this is how we access the various members defined in the class whose object iter points to
+    return 0;
+}
+
+Iterator Types
+
+Iterator are of types iterator and const_iterator
+they can be used and summoned the following way :
+
+#include<iostream>
+#include<string>
+#include<vector>
+int main()
+{
+    std::string::iterator it;// iterator is a type specifier for iterator
+    std::vector<int>::iterator it_vec;// iterator is a class in scope of vector
+    std::string::const_iterator cit;// const_iterator is just constant iterator type
+    std::vector<int>::const_iterator cit_vec;
+    return 0;
+}
+
+remember that suppose we initialise an iterator type and give it a value form a container now if we make changes to the container that the iterator was pointing to like adding an element or removing one,the initialised iterator will be irrelavant. since the iterator value wont be updated as we change the size of the container.
+
+difference_type
+both vectors and strings define a difference type also which is signed integral type.difference_type is the type we get when we subtract one iterator from another in pointer arithmetic.
+
+the following program shows how we can use difference type :
+
+#include<iostream>
+#include<string>
+#include<vector>
+int main()
+{
+   std::string str= "string";
+   std::string::difference_type d =str.end() - str.begin();// difference in iterators return difference type that is defined
+   // in both string and vector class
+   std::vector<int> vec = {1,2,3,4};
+   std::vector<int>::difference_type dt = vec.end() - vec.begin(); 
+   return 0;
+}
+
+arrays :
+An array is a data structure that is similar to the library vector type
+but no one uses arays since they are old and boring.
+
+yes arrays have a beter runtime advantages and are hence used in specialised applications but we lose the flexibility we get in vectors.
+
+Built in type arrays
+
+the dimension of an array must be specified at initialisation and must be a constexpr.
+
+we cannot assign one array to another… cringeeeeeee
+a1 = a2 wont work we will have to do it by iterating through each element. cringeeeeeeeeee
+
+Warning
+The most common source of security problems are buffer overflow bugs.
+Such bugs occur when a program fails to check a subscript and mistakenly uses memory outside the range of an array or similar data structure.
+
+the name of the array can be used as pointer to the first element of the array.
+eg.
+arr[10] has a pointer arr
+but note we cannot perform pointer arithmetic to the arr pointer !!!
+since it was made to point to the first element of the array only.
+hence , the array name array pointer is a constant pointer
+
+POINTERS ARE ITERATORS
+
+BEGIN AND END in arrays
+
+since arrays are not class and hece in c, begin and end function are available so as to find the starting point and end point of an array whose pointer is passed in as the argument to these functions.
+std::end(arr_name) => will point to one past the array last element
+
+#include<iostream>
+
+int main()
+{
+    int arr[15] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14};
+    int *end = std::end(arr);//std::end, returns a pointer type
+    int *begin = std::begin(arr);// pointer to the begining of the array
+    return 0;
+}
+
+Warning
+Unlike subscripts for vector and string, the index of the built-in subscript operator is not an unsigned type.
+hence the use of index is much delecate in arrays.
+
+also using this array can be used to define c-style strings
+but For most applications, in addition to being safer, it is also more efficient to use library strings rather than C-style strings.
+
+c++ provides tool to make use of the old code that was written in c and use it in c++
+
+Mixing Library strings and C-Style Strings
+
+#include<iostream>
+#include<string>
+int main()
+{
+    std::string str = "hello world";
+    char *s = str; // error can't initialise a char* from a string
+    const char *s = str.c_str();// this helps initialise a c string
+    // with a c++ string
+    return 0;
+}
+
+Using an Array to Initialize a vector
+
+#include<iostream>
+#include<vector>
+int main()
+{
+    int int_arr[] = {0,1,2,3,4,5};
+    std::vector<int> vec(std::begin(int_arr),std::end(int_arr));
+    std::vector<int> vec_2(int_arr+2,int_arr+4);
+    //we just pass the starting address and ending address and achieve the vector
+    return 0;
+}
+
+Advice: Use Library Types Instead of Arrays
+
+Mulidimentional array
+arr[3][3]={{3},{3},{3}};
+this statement initialises the first element of all the inner arrays and hence rest will be 0.
+
+pointer and reference to an array
+int * ip[4]; // array of pointers to int
+int (* ip)[4]; // pointer to an array of four ints
+
+Operators :
+overloaded operators operator overloading is a thing.
+
+The IO library >> and << operators and the operators we used with strings, vectors, and iterators are all overloaded operators.
+study later
+
+Lvalues and Rvalues
+
+lvalue is left side of the operator and rvalue is right side of the operator.note that are Lvalues actully occupy memory so lside have objects and generally rvalues dont have any memory ,
+int x = 12;
+x is lvalue with respect to = operator and 12 is rvalue wrt ‘=’ operator.
+
+An expression with two or more operators is a compound expression
+a += n; is a compound expression .
+
+we know the arithmetic operators
+
+when value of lhs is assigned to rhs its called promotion.
+and the value that was assigned to the left side from right side is called to be promoted.
+
+Logical and relational operator :
+|| && ! are logical operators
+
+== != <= >= are relational operators
+
+= += -= * /= %= are all assignment operator and compound assignment operator
+
+Note
+Because assignment has lower precedence than the relational operators,
+parentheses are usually needed around assignments in conditions.
+
+<<= >>= &= ^= |= // bitwise operators
+
+The conditional Operator :
+also called ternary operator
+Warning
+Nested conditionals quickly become unreadable. It’s a good idea to nest no more than two or three.
+nesting ternary operator pog
+
+#include<iostream>
+
+int main()
+{
+    int x = 12;
+    int y = (x > 12 ? (x>10 ? 12:13) : (x>11 ? 10:11));
+    // nested ternary operator.
+    return 0;
+}
+
+Using a Conditional Operator in an Output Expression
+
+the below shows why paranthesis are important
+
+cout << ((grade < 60) ? “fail” : “pass”); // prints pass or fail
+cout << (grade < 60) ? “fail” : “pass”; // prints 1 or 0!
+cout << grade < 60 ? “fail” : “pass”; // error: compares cout to 60
+
+BITWISE OPERATOR :
+
+bitwise OR(|), AND(&) ,XOR(^) , NOT(~)
+
+Bitwise Shift Operators : they perform a bitwise shift of the operands.
+
+<< and >>
+these just shift the bits within a memory unit given to the operand left or right
+
+0	0	0	0	0	1	0	1	1
+if the above represents a variable a for eg. then
+a<<5 will make the memory.
+
+1	0	1	1	0	0	0	0	0
+notice how all the bits have shifted right and changed the value of a.
+The left-shift operator (the << operator) inserts 0-valued bits on the right. The behavior of the right-shift operator (the >> operator) depends on the type of the left-hand operand: If that operand is unsigned, then the operator inserts 0-valued bits on the left; if it is a signed type, the result is implementation defined—either copies of the sign bit or 0-valued bits are inserted on the left.
+
+Bitwise NOT Operator : inverts all bits in the memory cell and gives a new value
+a = | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 1 | 1 |
+~a = | 1 | 1 | 1 | 1 | 1 | 0 | 1 | 0 | 0 |
+
+The AND (&), OR (|), and XOR (^) operators generate new values with the bit pattern
+composed from its two operands: a|b,a^b,a&b
+they just perform operations on two operators on the basis of their bit values.
+the logical operations are performed in comparison to the respective bits of the operands.
+
+there is also compound bitwise operators :
+eg
+|=
+&=
+^=
+etc.
+
+Shift Operators (aka IO Operators) Are Left Associative
+
+we use the overloaded versions of shift operators in cout and cin operations.
+
+cout << “hi” << " there" << endl;
+executes as
+( (cout << “hi”) << " there" ) << endl;
+
+associativity is in which direction left to right or right to left the operation is performed when operator performs on operators.
+we read the oeration in the same order as the associativity proided by the operator in play.
+
+sizeof()
+The sizeof operator returns the size, in bytes, of an expression or a type name.
+
+Sales_data data, * p;
+sizeof(Sales_data); // size required to hold an object of type Sales_data
+sizeof data; // size of data’s type, i.e., sizeof(Sales_data)
+sizeof p; // size of a pointer
+sizeof * p; // size of the type to which p points, i.e., sizeof(Sales_data)
+sizeof data.revenue; // size of the type of Sales_data’s revenue member
+sizeof Sales_data::revenue; // alternative way to get the size of revenue
+
+// the below program shows implimentation of sizeof operator
+
+#include<iostream>
+#include<string>
+int main()
+{
+    std::string str = "Preetam is the king",*ptr;
+    sizeof(std::string);// we pass classes in brackets and all the other stuff just in front of the operator
+    sizeof ptr;// gives size in bytes
+    sizeof str.capacity();// this will return the size of value returned by str.capacity()
+    return 0;
+}
+
+Comma Operator
+’,’ operator evaluates from left to right i.e. right associativity
+
+Type conversion :
+implicit conversions.
+implicit conversions are done by the compiler without the concern of the user. Such conversions if not
+
+IMPORTANT
+one example of implicit conversion is :
+
+while (cin >> s) // while condition converts cin to bool
+
+The condition (cin >> s) reads cin and yields cin as its result. Conditions expect a value of type bool, but this condition tests a value of type istream. The IO library defines a conversion from istream to bool. That conversion is used (automatically) to convert cin to bool. The resulting bool value depends on the state of the stream. If the last read succeeded, then the conversion yields true. If the last attempt failed, then the conversion to bool yields false.
+
+basically cin returns a value of type istream only but , the IO library defines a conversion from istream to bool and hence we are able to use the bool version of cin output given by the expresstion cin >> s.
+
+Explicit conversions
+
+Named Casts
+The cast-name may be one of static_cast, dynamic_cast, const_cast, and reinterpret_cast
+
+int x = static_cast(5.5);
+5.5 will be converted into int and then assigned to x.
+we are only considered about const_cast since we will use them soon.
+
+casts are just forceful ways of taking away the types of the
+
+Exception Handling :
+
+try block :
+
+Exception handling is generally used when one part of a program detects a problem that it cannot resolve and the problem is such that the detecting part of the program cannot continue.In such cases, the detecting part needs a way to signal that something happened and that it cannot continue. Moreover, the detecting part needs a way to signal the problem without knowing what part of the program will deal with
+the exceptional condition. Having signaled what happened, the detecting part stops processing.
+
+• throw expressions, which the detecting part uses to indicate that it
+encountered something it can’t handle. We say that a throw raises an
+exception.
+• try blocks, which the handling part uses to deal with an exception. A try block starts with the keyword try and ends with one or more catch clauses. Exceptions thrown from code executed inside a try block are usually handled by one of the catch clauses. Because they “handle” the exception, catch clauses are also known as exception handlers.
+
+• A set of exception classes that are used to pass information about what happened between a throw and an associated catch
+
+Lecture 27 Exception Handling in C++ Hindi - YouTube
+see here.
+
+Exceptions are for runtime errors in case we face them.
+
+we should look forward to handle exceptions.
+
+we can handle exception using normal logic also.
+
+Study Exception Handling Later.
+Functions
+static objects
+objects that have static will be initialised before they are even called such objects persistin the memory until the program execution ends.
+
+a static variable defined has by default value 0 and also note that we cannot initialise it inside of a class. we initialise it outside,
+a static member is given memory only once and only updation can be done .
+
+static variables and blocks are shared by every instance of a class.
+and hence constructors are a good way initialising various instances of class, static is good for shared rsources for all the class objects.
+
+The reason why static members cannot be given value inside of a class is that if we do so static object defined in class will be given memory eveytime instance of a class is created!!! which is not what we want for our static memebrs. So we are not allowed to give them memory inside of a class
+
+NOTE :
+it is okay to give a static variable initial value inside of an indipendent class free function.
+
+
+
+
+
+
+THE PROCESS OF COMPILATION
+
+
+
+
+
+C plus plus file .cpp (source code)
+
+Preprocessed file .i (preprocessed code)
+
+Assembly File .asm (assembly language)
+
+Object file .o (AlphaNumeric)
+
+Executable File .exe
+
+

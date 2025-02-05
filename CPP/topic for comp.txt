@@ -1,0 +1,3 @@
+-> bit manipulation in cpp
+-> already available algorithms
+-> algorithms revision
